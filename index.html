@@ -90,20 +90,20 @@
         #modal-content { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease; }
         body.modal-open { overflow: hidden; }
 
-        /* SNOWFALL ANIMATION */
+        /* SNOWFALL ANIMATION - IMPROVED */
         .snowflake {
             position: absolute;
-            top: -20px; /* Start above */
-            background-color: rgba(255, 255, 255, 0.9); /* Более яркий снег */
+            top: -20px;
+            background-color: white;
             border-radius: 50%;
             pointer-events: none;
             animation: fall linear infinite;
-            z-index: 1; /* Ensure visibility inside container */
+            z-index: 10;
         }
         @keyframes fall {
             0% { transform: translateY(0) translateX(0); opacity: 0; }
-            10% { opacity: 1; }
-            100% { transform: translateY(600px) translateX(20px); opacity: 0; } /* Увеличил дистанцию падения */
+            10% { opacity: 0.9; }
+            100% { transform: translateY(1000px) translateX(20px); opacity: 0; }
         }
     </style>
 </head>
@@ -134,15 +134,13 @@
     </header>
 
     <!-- БЛОК 1: HERO -->
-    <!-- Уменьшен min-h-screen, убрано выравнивание по центру, теперь flex-end для картинки -->
-    <main class="relative z-10 w-full max-w-[1840px] mx-auto px-layout-px pt-28 lg:pt-36 pb-0 flex flex-col justify-end">
+    <main class="relative z-10 w-full max-w-[1840px] mx-auto px-layout-px pt-24 lg:pt-20 pb-0 min-h-screen flex flex-col justify-center">
         
         <!-- Grid Content -->
-        <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end relative z-10">
+        <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
             
-            <!-- Left Column: Text (5 cols) -->
-            <!-- pb-20 отступ снизу, чтобы текст не прилипал к краю секции -->
-            <div class="lg:col-span-5 flex flex-col items-start text-left relative z-10 pb-20 lg:pb-24">
+            <!-- Left Column: Text -->
+            <div class="lg:col-span-5 flex flex-col items-start text-left relative z-10 pb-12 lg:pb-16">
                 
                 <h1 class="blur-text font-bold text-primary tracking-tighter text-[48px] lg:text-[68px] leading-[1.05] mb-6">
                     Ваша самая здоровая<br>
@@ -193,25 +191,23 @@
                 </div>
             </div>
 
-            <!-- Right Column: Image (7 cols) -->
-            <!-- Без pb, чтобы прижималась к низу следующей секции -->
-            <div class="hidden lg:block lg:col-span-7 relative w-full fade-in-up delay-500 opacity-0 self-end -mb-8 lg:-mb-12">
-                 <!-- Image container -->
+            <!-- Right Column: Image -->
+            <div class="hidden lg:block lg:col-span-7 relative w-full fade-in-up delay-500 opacity-0">
                  <div class="relative w-full">
                      <img src="https://res.cloudinary.com/dt79npeea/image/upload/v1766514540/2622_dlx8qw.png" 
                           alt="Face Massage" 
-                          class="w-full h-auto max-h-[85vh] object-contain object-bottom drop-shadow-none">
+                          class="w-full h-auto max-h-[85vh] object-contain object-center drop-shadow-none">
                      
-                     <!-- Soft Gradient Overlay (Smooth Transition) -->
-                     <div class="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-background via-background/60 to-transparent pointer-events-none"></div>
+                     <!-- Мягкий градиент снизу -->
+                     <div class="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none"></div>
                  </div>
             </div>
 
         </div>
     </main>
 
-    <!-- БЛОК 2: ПОЧЕМУ ONA FACE? (Отступы уменьшены: py-12) -->
-    <section id="about" class="bg-background py-12 lg:py-24 relative z-10 w-full">
+    <!-- БЛОК 2: ПОЧЕМУ ONA FACE? -->
+    <section id="about" class="bg-background py-12 lg:py-24 relative z-10 w-full border-t border-gray-100/50">
         <div class="max-w-[1840px] mx-auto px-layout-px">
             <div class="flex flex-col lg:flex-row gap-12 lg:gap-0">
                 <div class="w-full lg:w-[40%] flex flex-col items-start relative select-none">
@@ -413,7 +409,28 @@
         const modal = document.getElementById('modal'); const overlay = document.getElementById('modal-overlay'); const modalContent = document.getElementById('modal-content'); const body = document.body; function openModal(serviceType) { const data = modalData[serviceType]; if (!data) return; modalBody.innerHTML = `<h2 class="text-[28px] font-bold text-primary mb-6 tracking-tighter">${data.title}</h2><div class="bg-background rounded-2xl p-6 mb-6"><p class="text-[16px] text-secondary leading-[1.6] mb-4 tracking-tight">${data.description}</p><p class="text-[15px] font-medium text-primary tracking-tight">${data.highlight}</p></div><button onclick="closeModal()" class="w-full bg-accent hover:bg-accent-hover text-primary font-medium py-3.5 rounded-xl transition-colors tracking-tight">Понятно, спасибо</button>`; modal.classList.remove('hidden'); modal.classList.add('flex'); body.classList.add('modal-open'); setTimeout(() => { overlay.classList.remove('opacity-0'); modalContent.classList.remove('opacity-0', 'scale-95'); modalContent.classList.add('opacity-100', 'scale-100'); }, 10); } function closeModal() { overlay.classList.add('opacity-0'); modalContent.classList.remove('opacity-100', 'scale-100'); modalContent.classList.add('opacity-0', 'scale-95'); setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); body.classList.remove('modal-open'); }, 300); } document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) { closeModal(); } });
         
         // Snow (Inside container)
-        function createSnowflakes() { const container = document.getElementById('snow-container'); const flakeCount = 40; for (let i = 0; i < flakeCount; i++) { const flake = document.createElement('div'); flake.classList.add('snowflake'); const size = Math.random() * 3 + 2 + 'px'; flake.style.width = size; flake.style.height = size; flake.style.left = Math.random() * 100 + '%'; flake.style.animationDuration = Math.random() * 3 + 5 + 's'; flake.style.animationDelay = Math.random() * 5 + 's'; container.appendChild(flake); } } createSnowflakes();
+        function createSnowflakes() { 
+            const container = document.getElementById('snow-container'); 
+            if (!container) return; // Safety check
+            const flakeCount = 60; 
+            container.innerHTML = '';
+            for (let i = 0; i < flakeCount; i++) { 
+                const flake = document.createElement('div'); 
+                flake.classList.add('snowflake'); 
+                const size = Math.random() * 3 + 2 + 'px'; 
+                flake.style.width = size; 
+                flake.style.height = size; 
+                flake.style.left = Math.random() * 100 + '%'; 
+                flake.style.animationDuration = Math.random() * 3 + 5 + 's'; 
+                
+                // NEGATIVE DELAY to make snow appear instantly
+                flake.style.animationDelay = -Math.random() * 8 + 's'; 
+                
+                flake.style.opacity = Math.random() * 0.7 + 0.3;
+                container.appendChild(flake); 
+            } 
+        } 
+        createSnowflakes();
     </script>
 </body>
 </html>
