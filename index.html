@@ -23,17 +23,20 @@
                 extend: {
                     colors: {
                         background: '#FAF8F5',     // Основной фон (Светло-бежевый)
-                        primary: '#2B2B2B',        // Основной текст (Темно-серый)
-                        secondary: '#6B6B6B',      // Вторичный текст
+                        primary: '#1A1A1A',        // Основной текст (Черный, насыщенный)
+                        secondary: '#4A4A4A',      // Вторичный текст (Темно-серый)
                         accent: '#D4C4B0',         // Акцент (Песочный)
                         'accent-hover': '#C9B89A', // Акцент при наведении
-                        watermark: '#F0EBE5',      // Цвет watermark (еле заметный)
+                        watermark: '#F0EBE5',      // Цвет watermark
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                     },
                     fontSize: {
-                        'hero': ['clamp(3rem, 5vw, 6rem)', { lineHeight: '1.1' }], // Адаптивный H1 (48px - 96px)
+                        // Точные размеры из ТЗ для Hero
+                        'hero-lg': ['110px', { lineHeight: '1.05', letterSpacing: '-0.03em' }],
+                        'hero-md': ['80px', { lineHeight: '1.1' }],
+                        'hero-sm': ['48px', { lineHeight: '1.1' }],
                         'watermark': 'clamp(150px, 25vw, 400px)',
                     }
                 }
@@ -53,7 +56,7 @@
         }
         .avatar-stack > * {
             transition: transform 0.3s ease;
-            border: 2px solid #FAF8F5; /* Цвет фона для разделителя */
+            border: 2px solid #FAF8F5;
         }
 
         /* Анимация аккордеона */
@@ -66,14 +69,22 @@
         .accordion-content.open {
             opacity: 1;
         }
+        
+        /* Скрытие скроллбара для горизонтальной прокрутки галереи на мобильных */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
 <body class="bg-background text-primary font-sans antialiased overflow-x-hidden relative min-h-screen flex flex-col">
 
     <!-- Watermark (Фоновая типографика) -->
-    <!-- z-0 и absolute, чтобы быть позади контента -->
     <div class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full text-center pointer-events-none z-0 select-none overflow-hidden flex justify-center items-end">
-        <span class="text-watermark font-black leading-none opacity-50 block translate-y-[10%] tracking-tighter text-[20vw] lg:text-[400px]">
+        <span class="text-watermark font-black leading-none opacity-50 block translate-y-[10%] tracking-tighter text-[#F0EBE5]">
             ONA
         </span>
     </div>
@@ -81,26 +92,21 @@
     <!-- Header Navigation -->
     <header class="fixed top-0 w-full z-50 bg-background/90 backdrop-blur-sm border-b border-gray-100/50 transition-all duration-300">
         <div class="max-w-[1440px] mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
-            <!-- Логотип -->
             <a href="#" class="text-2xl font-bold tracking-tight z-50 relative group">
                 ONA<span class="align-top text-xs font-normal ml-0.5 opacity-60">™</span>
                 <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
             </a>
 
-            <!-- Навигация (Desktop) -->
             <nav class="hidden md:flex items-center gap-8 lg:gap-12 text-sm font-medium text-primary">
                 <a href="#" class="hover:text-secondary transition-colors">О нас</a>
                 <a href="#" class="hover:text-secondary transition-colors">Услуги</a>
                 <a href="#" class="hover:text-secondary transition-colors">Контакты</a>
             </nav>
 
-            <!-- CTA кнопка в хедере -->
             <div class="flex items-center gap-4">
                 <a href="#" class="hidden sm:inline-flex bg-accent hover:bg-accent-hover text-primary px-6 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200">
                     Записаться
                 </a>
-                
-                <!-- Мобильное меню (Гамбургер) -->
                 <button class="md:hidden p-2 text-primary">
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
@@ -108,24 +114,33 @@
         </div>
     </header>
 
-    <!-- Main Hero Content -->
-    <!-- pt-32 (отступ от хедера) -->
+    <!-- БЛОК 1: HERO -->
     <main class="flex-grow relative z-10 w-full max-w-[1440px] mx-auto px-6 lg:px-12 pt-32 lg:pt-40 pb-20">
         
-        <!-- Grid Layout: 1 колонка на мобильном, 12 на десктопе -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 h-full">
+        <div class="relative w-full">
+            
+            <!-- Правый верхний текст (Абсолютное позиционирование) -->
+            <!-- Скрыт на мобильных, виден на десктопе -->
+            <div class="hidden lg:block absolute top-0 right-0 max-w-[350px] text-right z-20">
+                <p class="text-[20px] lg:text-[24px] font-normal text-primary leading-tight">
+                    Мы убираем лишнее,<br>
+                    чтобы сосредоточиться<br>
+                    на том, что действительно работает.
+                </p>
+                <div class="mt-6 w-16 h-px bg-primary ml-auto"></div>
+            </div>
 
-            <!-- Левая колонка (Контент) - занимает 7-8 колонок -->
-            <div class="lg:col-span-8 flex flex-col justify-start">
+            <!-- Левая колонка контента (60-70% ширины) -->
+            <div class="w-full lg:max-w-[70%] flex flex-col items-start text-left">
                 
                 <!-- Заголовок H1 -->
-                <h1 class="text-hero font-bold tracking-tight mb-8 text-primary">
-                    Ваша самая здоровая<br class="hidden sm:block">
+                <h1 class="font-black text-primary tracking-tight text-[48px] sm:text-[80px] lg:text-[110px] leading-[1.05] lg:leading-[1.05] mb-0 max-w-[900px]">
+                    Ваша самая здоровая<br>
                     кожа раскрыта.
                 </h1>
 
-                <!-- Социальное доказательство -->
-                <div class="flex flex-wrap items-center gap-6 mb-8">
+                <!-- Социальное доказательство (Отступ 32px) -->
+                <div class="mt-8 flex flex-wrap items-center gap-6">
                     <!-- Аватары -->
                     <div class="flex -space-x-3 avatar-stack">
                         <img src="https://i.pravatar.cc/100?img=1" alt="Client" class="w-10 h-10 rounded-full object-cover">
@@ -150,160 +165,138 @@
                     </div>
                 </div>
 
-                <!-- Подзаголовок -->
-                <p class="text-lg sm:text-xl text-secondary font-normal max-w-xl mb-10 leading-relaxed">
-                    Мягко обновляем кожу, снимаем стресс, возвращаем сияние.
+                <!-- Подзаголовок (Отступ 24px) -->
+                <p class="mt-6 text-[18px] sm:text-[20px] lg:text-[22px] text-secondary font-normal max-w-[600px] leading-normal">
+                    Мягко обновляем кожу, снимаем стресс, возвращаем сияние
                 </p>
 
-                <!-- CTA Блок -->
-                <div class="flex flex-col items-start gap-4">
+                <!-- CTA Блок (Отступ 40px) -->
+                <div class="mt-10 flex flex-col items-start gap-4">
                     
                     <!-- Бейдж акции -->
-                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/30 bg-white/50 backdrop-blur-sm text-sm text-primary mb-2">
+                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-accent/30 bg-white/50 backdrop-blur-sm text-sm text-primary">
                         <span>🎁</span>
                         <span>-30% для новых клиентов в декабре</span>
                     </div>
 
                     <!-- Основная кнопка -->
-                    <button class="bg-accent hover:bg-accent-hover text-primary text-base font-medium px-8 py-4 rounded-xl transition-all shadow-sm hover:shadow-md w-full sm:w-auto text-center transform hover:-translate-y-0.5 duration-200">
+                    <button class="bg-accent hover:bg-accent-hover text-primary text-[16px] font-medium px-8 py-4 rounded-xl transition-all shadow-sm hover:shadow-md w-full sm:w-auto text-center transform hover:-translate-y-0.5 duration-200">
                         Записаться на консультацию
                     </button>
 
                     <!-- Доп информация -->
-                    <span class="text-sm text-secondary pl-1 opacity-80">
+                    <span class="text-[14px] text-secondary pl-1 opacity-80">
                         Бесплатная консультация (около 15 минут) перед каждой процедурой
                     </span>
                 </div>
             </div>
 
-            <!-- Правая колонка (Визуальный акцент/Текст) - занимает 4-5 колонок -->
-            <div class="hidden lg:flex lg:col-span-4 flex-col justify-start pt-4 lg:pt-12 items-end text-right">
-                
-                <div class="max-w-xs xl:max-w-sm">
-                    <p class="text-2xl xl:text-3xl font-normal text-primary leading-tight">
-                        Мы убираем лишнее,
-                        <span class="text-secondary">чтобы сосредоточиться
-                        на том, что действительно работает.</span>
-                    </p>
-                    
-                    <div class="mt-8 w-16 h-px bg-primary ml-auto"></div>
-                </div>
-            </div>
-            
         </div>
     </main>
 
-    <!-- SECTION 2: PHILOSOPHY / ABOUT US -->
+    <!-- БЛОК 2: ПОЧЕМУ ONA FACE? -->
     <section class="bg-white py-24 lg:py-32 relative z-10 w-full border-t border-gray-100">
         <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
             
-            <!-- Асимметричная сетка: Левая часть (35-40%) и Правая часть (60-65%) -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+            <div class="flex flex-col lg:flex-row gap-12 lg:gap-0">
                 
-                <!-- ЛЕВАЯ КОЛОНКА (Заголовок) - ~40% -->
-                <div class="lg:col-span-5 flex flex-col items-start relative select-none">
-                    
-                    <!-- Сложный заголовок -->
-                    <div class="flex flex-col leading-none">
-                        <!-- Верхняя часть: "Почему" -->
-                        <span class="text-[56px] lg:text-[72px] font-black tracking-tight text-[#1A1A1A] z-10">
+                <!-- ЛЕВАЯ КОЛОНКА (35-40%) -->
+                <div class="w-full lg:w-[40%] flex flex-col items-start relative select-none">
+                    <div class="flex flex-col leading-none sticky top-32">
+                        <!-- 1. Почему -->
+                        <span class="text-[64px] lg:text-[80px] font-black tracking-tight text-[#1A1A1A] z-10">
                             Почему
                         </span>
                         
-                        <!-- Центральная часть: "&" (Светлый, гротеск, крупный) -->
-                        <span class="text-[120px] lg:text-[180px] font-light text-[#E5E5E5] opacity-50 -my-4 lg:-my-8 -ml-2 select-none pointer-events-none">
+                        <!-- 2. & -->
+                        <span class="text-[140px] lg:text-[200px] font-light text-[#E5E5E5] opacity-30 -my-4 lg:-my-10 -ml-2 lg:-ml-4 select-none pointer-events-none">
                             &amp;
                         </span>
                         
-                        <!-- Нижняя часть: "ONA Face?" -->
-                        <span class="text-[64px] lg:text-[96px] font-black tracking-tighter text-[#1A1A1A] -mt-4 lg:-mt-10 z-10">
-                            ONA <br class="lg:hidden">Face?
+                        <!-- 3. ONA Face? -->
+                        <span class="text-[80px] lg:text-[110px] font-black tracking-tighter text-[#1A1A1A] -mt-6 lg:-mt-16 z-10 leading-[0.9]">
+                            ONA<br>Face?
                         </span>
                     </div>
                 </div>
 
-                <!-- ПРАВАЯ КОЛОНКА (Текст + Аккордеон + Галерея) - ~60% -->
-                <div class="lg:col-span-7 flex flex-col pt-2 lg:pt-4">
+                <!-- ПРАВАЯ КОЛОНКА (60-65%) -->
+                <div class="w-full lg:w-[60%] flex flex-col lg:pl-16 pt-2">
                     
                     <!-- 1. Вводный текст -->
-                    <div class="max-w-[700px] mb-10">
+                    <div class="max-w-[650px] mb-8">
                         <p class="text-[16px] lg:text-[18px] leading-[1.7] text-[#4A4A4A] font-normal">
                             Мы специализируемся на массаже лица и деликатных пилингах, которые работают с естественными процессами кожи. Наш подход — <span class="font-bold text-[#1A1A1A]">бережное обновление</span> без агрессивного воздействия, где <span class="font-bold text-[#1A1A1A]">каждая процедура</span> запускает выработку коллагена и стимулирует клеточное обновление.
                         </p>
                     </div>
 
-                    <!-- 2. Коллапсируемый блок преимуществ (Аккордеон) -->
-                    <div class="mb-16 max-w-[700px]">
-                        <!-- Заголовок-кнопка -->
-                        <button onclick="toggleBenefits()" class="group flex items-center gap-3 text-[16px] font-medium text-[#1A1A1A] hover:text-accent transition-colors focus:outline-none w-full text-left">
+                    <!-- 2. Коллапсируемый блок (Аккордеон) -->
+                    <div class="mb-12 max-w-[650px]">
+                        <!-- Заголовок-кнопка (Отступ сверху 32px) -->
+                        <button onclick="toggleBenefits()" class="group mt-8 flex items-center gap-3 text-[16px] font-medium text-[#1A1A1A] hover:text-accent transition-colors focus:outline-none w-full text-left">
                             <span id="benefits-icon" class="text-xl leading-none transition-transform duration-300 transform group-hover:scale-110">+</span>
                             <span>Ключевые преимущества</span>
                         </button>
                         
                         <!-- Скрытый контент -->
                         <div id="benefits-content" class="accordion-content pl-7 mt-4">
-                            <ul class="space-y-4 text-[16px] text-[#4A4A4A] leading-[1.8]">
+                            <ul class="space-y-4 text-[16px] text-[#4A4A4A] leading-[1.7]">
                                 <li class="flex items-start gap-3">
-                                    <span class="text-[#999999] mt-1">•</span>
+                                    <span class="text-gray-400 mt-1.5 text-[8px]">●</span>
                                     <span>Пилинг действует внутри эпидермиса — глубоко очищает и стимулирует обмен веществ</span>
                                 </li>
                                 <li class="flex items-start gap-3">
-                                    <span class="text-[#999999] mt-1">•</span>
+                                    <span class="text-gray-400 mt-1.5 text-[8px]">●</span>
                                     <span>Массаж лица высвобождает эндорфины — гормоны счастья, снимает стресс</span>
                                 </li>
                                 <li class="flex items-start gap-3">
-                                    <span class="text-[#999999] mt-1">•</span>
+                                    <span class="text-gray-400 mt-1.5 text-[8px]">●</span>
                                     <span>Комплексный уход за кожей лица с видимым результатом</span>
                                 </li>
                             </ul>
                         </div>
                     </div>
 
-                    <!-- 3. Галерея (Подвал секции) -->
-                    <div class="w-full">
-                        <div class="flex items-center justify-between mb-8">
+                    <!-- 3. Галерея (Низ) -->
+                    <div class="w-full mt-12">
+                        <div class="flex items-center justify-between mb-6">
                             <h3 class="text-[16px] font-medium text-[#1A1A1A] flex items-center gap-2">
                                 <span class="text-accent text-lg">+</span> Наши работы
                             </h3>
                         </div>
                         
-                        <!-- Сетка карточек -->
-                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+                        <!-- Сетка карточек (5-6 в ряд) -->
+                        <!-- Используем overflow-x-auto для мобильных, чтобы не ломать 6 колонок на десктопе -->
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                             <!-- Card 1 -->
-                            <div class="aspect-[4/5] rounded-[18px] overflow-hidden bg-gray-100 group relative">
+                            <div class="aspect-[3/4] rounded-[20px] overflow-hidden bg-gray-100 group relative cursor-pointer">
                                 <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?q=80&w=300&auto=format&fit=crop" 
                                      alt="Work 1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors"></div>
                             </div>
                             <!-- Card 2 -->
-                            <div class="aspect-[4/5] rounded-[18px] overflow-hidden bg-gray-100 group relative">
+                            <div class="aspect-[3/4] rounded-[20px] overflow-hidden bg-gray-100 group relative cursor-pointer">
                                 <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=300&auto=format&fit=crop" 
                                      alt="Work 2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors"></div>
                             </div>
                             <!-- Card 3 -->
-                            <div class="aspect-[4/5] rounded-[18px] overflow-hidden bg-gray-100 group relative">
+                            <div class="aspect-[3/4] rounded-[20px] overflow-hidden bg-gray-100 group relative cursor-pointer">
                                 <img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=300&auto=format&fit=crop" 
                                      alt="Work 3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors"></div>
                             </div>
                             <!-- Card 4 -->
-                            <div class="aspect-[4/5] rounded-[18px] overflow-hidden bg-gray-100 group relative">
+                            <div class="aspect-[3/4] rounded-[20px] overflow-hidden bg-gray-100 group relative cursor-pointer">
                                 <img src="https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=300&auto=format&fit=crop" 
                                      alt="Work 4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors"></div>
                             </div>
                             <!-- Card 5 -->
-                            <div class="aspect-[4/5] rounded-[18px] overflow-hidden bg-gray-100 group relative">
+                            <div class="aspect-[3/4] rounded-[20px] overflow-hidden bg-gray-100 group relative cursor-pointer">
                                 <img src="https://images.unsplash.com/photo-1552693673-1bf958298935?q=80&w=300&auto=format&fit=crop" 
                                      alt="Work 5" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors"></div>
                             </div>
                             <!-- Card 6 -->
-                            <div class="aspect-[4/5] rounded-[18px] overflow-hidden bg-gray-100 group relative hidden sm:block">
+                            <div class="aspect-[3/4] rounded-[20px] overflow-hidden bg-gray-100 group relative cursor-pointer hidden lg:block">
                                 <img src="https://images.unsplash.com/photo-1598256989494-026345d7e8cd?q=80&w=300&auto=format&fit=crop" 
                                      alt="Work 6" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors"></div>
                             </div>
                         </div>
                     </div>
@@ -331,7 +324,7 @@
                 // Открываем
                 content.style.maxHeight = content.scrollHeight + "px";
                 content.classList.add('open');
-                icon.textContent = '−'; // Используем настоящий знак минус для эстетики
+                icon.textContent = '−';
             }
         }
     </script>
