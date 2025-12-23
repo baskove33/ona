@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Google Material Symbols Rounded -->
+    <!-- Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,300,0,0" />
 
     <!-- Tailwind -->
@@ -20,15 +20,13 @@
             theme: {
                 extend: {
                     colors: {
-                        background: '#FAF9F6',     
+                        background: '#F2EFE9',     
                         primary: '#1A1A1A',        
                         secondary: '#555555',      
                         tertiary: '#999999',       
                         accent: '#D4C4B0',         
                         'accent-hover': '#C4B29E', 
-                        watermark: '#EAEAEA',
-                        'wine-dark': '#4A0404',    
-                        'wine-light': '#720e0e',   
+                        watermark: '#E6DCCA',
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -37,11 +35,11 @@
                         'watermark': 'clamp(150px, 25vw, 450px)',
                     },
                     letterSpacing: {
-                        'tight': '-0.02em',       
-                        'tighter': '-0.035em',    
+                        'tight': '-0.01em',       
+                        'tighter': '-0.025em',    
                     },
                     spacing: {
-                        'layout-px': 'clamp(20px, 4vw, 60px)', // Глобальный паддинг
+                        'layout-px': 'clamp(20px, 4vw, 60px)',
                     }
                 }
             }
@@ -52,7 +50,6 @@
         html { scroll-behavior: smooth; }
         ::selection { background-color: #D4C4B0; color: #111111; }
 
-        /* Google Icon Settings */
         .material-symbols-rounded {
             font-family: 'Material Symbols Rounded';
             font-weight: normal;
@@ -65,14 +62,11 @@
             white-space: nowrap;
             word-wrap: normal;
             direction: ltr;
-            font-feature-settings: 'liga';
             -webkit-font-smoothing: antialiased;
-            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
-            vertical-align: middle;
         }
 
         .avatar-stack:hover > * { transform: translateX(4px); }
-        .avatar-stack > * { transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); border: 3px solid #FAF9F6; }
+        .avatar-stack > * { transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); border: 3px solid #F2EFE9; }
 
         .accordion-content { transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease; max-height: 0; opacity: 0; overflow: hidden; }
         .accordion-content.open { opacity: 1; }
@@ -96,32 +90,27 @@
         #modal-content { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease; }
         body.modal-open { overflow: hidden; }
 
+        /* SNOWFALL ANIMATION */
         .snowflake {
             position: absolute;
-            background-color: rgba(255, 255, 255, 0.6);
+            top: -20px; /* Start above */
+            background-color: rgba(255, 255, 255, 0.9); /* Более яркий снег */
             border-radius: 50%;
             pointer-events: none;
             animation: fall linear infinite;
+            z-index: 1; /* Ensure visibility inside container */
         }
         @keyframes fall {
-            0% { transform: translateY(-10px) translateX(0); opacity: 0; }
-            20% { opacity: 0.8; }
-            100% { transform: translateY(100%) translateX(20px); opacity: 0.2; }
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(600px) translateX(20px); opacity: 0; } /* Увеличил дистанцию падения */
         }
     </style>
 </head>
 <body class="bg-background text-primary font-sans antialiased overflow-x-hidden relative min-h-screen flex flex-col tracking-tight selection:bg-accent selection:text-primary">
 
-    <!-- Watermark (Fixed at bottom of section 1) -->
-    <div class="watermark-text absolute top-[100vh] left-1/2 transform -translate-x-1/2 -translate-y-full w-full text-center pointer-events-none z-0 select-none overflow-hidden flex justify-center items-end pb-0 transition-opacity duration-300">
-        <span class="text-[20vw] lg:text-[380px] font-black leading-none text-watermark opacity-50 tracking-tighter blur-[1px]">
-            ONA
-        </span>
-    </div>
-
     <!-- Header -->
     <header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-transparent transition-all duration-300 py-4">
-        <!-- WIDE LAYOUT UPDATE: max-w-[1840px] + adaptive px -->
         <div class="max-w-[1840px] mx-auto w-full px-layout-px flex items-center justify-between">
             <a href="#" class="text-2xl font-bold tracking-tighter z-50 relative group text-primary">
                 ONA™
@@ -145,47 +134,48 @@
     </header>
 
     <!-- БЛОК 1: HERO -->
-    <!-- WIDE LAYOUT UPDATE: max-w-[1840px] + adaptive px -->
-    <main class="relative z-10 w-full max-w-[1840px] mx-auto px-layout-px pt-28 lg:pt-36 pb-12 min-h-screen flex flex-col justify-center overflow-hidden">
+    <!-- Уменьшен min-h-screen, убрано выравнивание по центру, теперь flex-end для картинки -->
+    <main class="relative z-10 w-full max-w-[1840px] mx-auto px-layout-px pt-28 lg:pt-36 pb-0 flex flex-col justify-end">
         
-        <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+        <!-- Grid Content -->
+        <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end relative z-10">
             
-            <!-- Left Column -->
-            <div class="lg:col-span-8 flex flex-col items-start text-left relative z-10">
+            <!-- Left Column: Text (5 cols) -->
+            <!-- pb-20 отступ снизу, чтобы текст не прилипал к краю секции -->
+            <div class="lg:col-span-5 flex flex-col items-start text-left relative z-10 pb-20 lg:pb-24">
                 
-                <h1 class="blur-text font-bold text-primary tracking-tighter text-[56px] lg:text-[88px] leading-[1.05] mb-8 max-w-[900px]">
+                <h1 class="blur-text font-bold text-primary tracking-tighter text-[48px] lg:text-[68px] leading-[1.05] mb-6">
                     Ваша самая здоровая<br>
                     кожа раскрыта
                 </h1>
 
                 <!-- Social Proof -->
-                <div class="flex flex-wrap items-center gap-5 mb-8 fade-in-up delay-300 opacity-0">
+                <div class="flex flex-wrap items-center gap-4 mb-8 fade-in-up delay-300 opacity-0">
                     <div class="flex -space-x-3 avatar-stack">
-                        <div class="w-11 h-11 rounded-full border-[3px] border-background bg-gray-200 overflow-hidden"><img src="https://i.pravatar.cc/100?img=1" class="w-full h-full object-cover"></div>
-                        <div class="w-11 h-11 rounded-full border-[3px] border-background bg-gray-200 overflow-hidden"><img src="https://i.pravatar.cc/100?img=5" class="w-full h-full object-cover"></div>
-                        <div class="w-11 h-11 rounded-full border-[3px] border-background bg-gray-200 overflow-hidden"><img src="https://i.pravatar.cc/100?img=9" class="w-full h-full object-cover"></div>
-                        <div class="w-11 h-11 rounded-full border-[3px] border-background bg-gray-200 overflow-hidden"><img src="https://i.pravatar.cc/100?img=32" class="w-full h-full object-cover"></div>
-                        <div class="w-11 h-11 rounded-full border-[3px] border-background bg-primary text-white flex items-center justify-center font-medium text-xs">2k+</div>
+                        <div class="w-10 h-10 rounded-full border-[3px] border-background bg-gray-200 overflow-hidden"><img src="https://i.pravatar.cc/100?img=1" class="w-full h-full object-cover"></div>
+                        <div class="w-10 h-10 rounded-full border-[3px] border-background bg-gray-200 overflow-hidden"><img src="https://i.pravatar.cc/100?img=5" class="w-full h-full object-cover"></div>
+                        <div class="w-10 h-10 rounded-full border-[3px] border-background bg-gray-200 overflow-hidden"><img src="https://i.pravatar.cc/100?img=9" class="w-full h-full object-cover"></div>
+                        <div class="w-10 h-10 rounded-full border-[3px] border-background bg-gray-200 overflow-hidden"><img src="https://i.pravatar.cc/100?img=32" class="w-full h-full object-cover"></div>
+                        <div class="w-10 h-10 rounded-full border-[3px] border-background bg-primary text-white flex items-center justify-center font-medium text-xs">2k+</div>
                     </div>
                     <div class="flex flex-col gap-0.5">
                         <div class="flex gap-0.5 text-primary">
-                            <span class="material-symbols-rounded text-lg text-primary fill-current">star</span>
-                            <span class="material-symbols-rounded text-lg text-primary fill-current">star</span>
-                            <span class="material-symbols-rounded text-lg text-primary fill-current">star</span>
-                            <span class="material-symbols-rounded text-lg text-primary fill-current">star</span>
-                            <span class="material-symbols-rounded text-lg text-primary fill-current">star</span>
+                            <span class="material-symbols-rounded text-base text-primary fill-current">star</span>
+                            <span class="material-symbols-rounded text-base text-primary fill-current">star</span>
+                            <span class="material-symbols-rounded text-base text-primary fill-current">star</span>
+                            <span class="material-symbols-rounded text-base text-primary fill-current">star</span>
+                            <span class="material-symbols-rounded text-base text-primary fill-current">star</span>
                         </div>
                         <span class="text-xs font-medium text-secondary tracking-wide uppercase mt-1">2500+ Клиентов</span>
                     </div>
                 </div>
 
-                <p class="text-[17px] lg:text-[19px] text-secondary font-normal leading-[1.6] max-w-[520px] tracking-tight mb-10 fade-in-up delay-500 opacity-0">
+                <p class="text-[16px] lg:text-[17px] text-secondary font-normal leading-[1.6] max-w-[400px] tracking-tight mb-8 fade-in-up delay-500 opacity-0">
                     <span class="text-primary font-medium">Мягко обновляем кожу</span>, снимаем стресс, <span class="text-primary font-medium">возвращаем сияние</span>. Ваш личный ритуал красоты в центре города.
                 </p>
 
                 <div class="flex flex-col items-start w-full fade-in-up delay-700 opacity-0">
                     
-                    <!-- Interactive Button -->
                     <button class="group relative w-auto cursor-pointer overflow-hidden rounded-full border border-primary/10 bg-white p-3 px-8 text-center font-semibold shadow-lg shadow-black/5">
                         <span class="inline-block transition-all duration-300 group-hover:translate-x-12 group-hover:opacity-0 text-primary">
                             Записаться на консультацию
@@ -202,13 +192,26 @@
                     </span>
                 </div>
             </div>
-            <div class="hidden lg:block lg:col-span-4 relative"></div>
+
+            <!-- Right Column: Image (7 cols) -->
+            <!-- Без pb, чтобы прижималась к низу следующей секции -->
+            <div class="hidden lg:block lg:col-span-7 relative w-full fade-in-up delay-500 opacity-0 self-end -mb-8 lg:-mb-12">
+                 <!-- Image container -->
+                 <div class="relative w-full">
+                     <img src="https://res.cloudinary.com/dt79npeea/image/upload/v1766514540/2622_dlx8qw.png" 
+                          alt="Face Massage" 
+                          class="w-full h-auto max-h-[85vh] object-contain object-bottom drop-shadow-none">
+                     
+                     <!-- Soft Gradient Overlay (Smooth Transition) -->
+                     <div class="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-background via-background/60 to-transparent pointer-events-none"></div>
+                 </div>
+            </div>
+
         </div>
     </main>
 
-    <!-- БЛОК 2: ПОЧЕМУ ONA FACE? -->
-    <!-- WIDE LAYOUT UPDATE -->
-    <section id="about" class="bg-background py-20 lg:py-32 relative z-10 w-full border-t border-gray-100/50">
+    <!-- БЛОК 2: ПОЧЕМУ ONA FACE? (Отступы уменьшены: py-12) -->
+    <section id="about" class="bg-background py-12 lg:py-24 relative z-10 w-full">
         <div class="max-w-[1840px] mx-auto px-layout-px">
             <div class="flex flex-col lg:flex-row gap-12 lg:gap-0">
                 <div class="w-full lg:w-[40%] flex flex-col items-start relative select-none">
@@ -259,18 +262,15 @@
         </div>
     </section>
 
-    <!-- БЛОК 3: УСЛУГИ (UPDATED TEXT & ANIMATION OFFSET) -->
+    <!-- БЛОК 3: УСЛУГИ -->
     <section id="services" class="relative bg-background min-h-[250vh] w-full">
         
-        <!-- СЛОЙ 1: Статичный заголовок -->
         <div class="sticky top-0 h-screen w-full hidden lg:flex items-start justify-center pointer-events-none z-0 pt-32">
             <span class="text-[13px] font-bold tracking-[0.2em] text-tertiary uppercase">Услуги</span>
         </div>
 
-        <!-- СЛОЙ 3: Разъезжающийся текст -->
         <div class="sticky top-0 h-screen w-full hidden lg:flex items-start justify-center pointer-events-none z-30 overflow-hidden -mt-[100vh] pt-32">
             <div class="w-full flex justify-center mt-12">
-                <!-- Текст меньше (text-[32px]), жирнее (font-medium), без дикого трекинга -->
                 <div id="left-title" class="flex items-center justify-end will-change-transform">
                     <h2 class="text-[32px] font-medium leading-[1.0] text-primary text-right whitespace-nowrap tracking-tight">
                         Выберите уход&nbsp;
@@ -286,11 +286,9 @@
         </div>
 
         <!-- Контент (Карточки) -->
-        <!-- WIDE LAYOUT UPDATE -->
         <div class="relative z-10 max-w-[1840px] mx-auto px-layout-px pb-20 lg:-mt-[100vh]">
             <div class="flex flex-col items-center gap-6 lg:pt-[100vh]">
                 
-                <!-- Мобильный заголовок -->
                 <div class="lg:hidden w-full mb-10 text-center pt-20">
                     <span class="text-[12px] font-bold tracking-[0.2em] text-tertiary uppercase mb-3 block">Услуги</span>
                     <h2 class="text-[28px] leading-[1.1] text-primary font-medium tracking-tight">
@@ -317,7 +315,9 @@
                             <li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Буккальный массаж</span><span class="font-semibold text-primary">4 500₽</span></li>
                         </ul>
                     </div>
-                    <button onclick="openModal('massage')" class="w-full py-3 rounded-lg border border-primary/10 hover:bg-primary hover:text-white transition-all text-[14px] font-medium tracking-tight text-primary">Узнать результат процедуры</button>
+                    <button onclick="openModal('massage')" class="w-full py-3 rounded-lg border border-primary/10 hover:bg-primary hover:text-white transition-all text-[14px] font-medium tracking-tight text-primary">
+                        Подробнее
+                    </button>
                 </div>
 
                 <!-- Card 2 -->
@@ -337,7 +337,9 @@
                             <li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Peach Peel</span><span class="font-semibold text-primary">4 500₽</span></li>
                         </ul>
                     </div>
-                    <button class="w-full py-3 rounded-lg border border-primary/10 hover:bg-primary hover:text-white transition-all text-[14px] font-medium tracking-tight text-primary">Узнать результат процедуры</button>
+                    <button onclick="openModal('peeling')" class="w-full py-3 rounded-lg border border-primary/10 hover:bg-primary hover:text-white transition-all text-[14px] font-medium tracking-tight text-primary">
+                        Подробнее
+                    </button>
                 </div>
 
                 <!-- Card 3 -->
@@ -357,7 +359,9 @@
                             <li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Микротоковая терапия</span><span class="font-semibold text-primary">3 500₽</span></li>
                         </ul>
                     </div>
-                    <button class="w-full py-3 rounded-lg border border-primary/10 hover:bg-primary hover:text-white transition-all text-[14px] font-medium tracking-tight text-primary">Узнать результат процедуры</button>
+                    <button onclick="openModal('care')" class="w-full py-3 rounded-lg border border-primary/10 hover:bg-primary hover:text-white transition-all text-[14px] font-medium tracking-tight text-primary">
+                        Подробнее
+                    </button>
                 </div>
 
             </div>
@@ -366,7 +370,6 @@
 
     <!-- БЛОК 4: АКЦИЯ -->
     <section class="relative bg-background py-24 z-10">
-        <!-- WIDE LAYOUT UPDATE -->
         <div class="max-w-[1840px] mx-auto px-layout-px">
             <div class="relative w-full rounded-[32px] overflow-hidden bg-gradient-to-br from-[#5C0B0B] via-[#781919] to-[#450505] shadow-2xl shadow-red-900/20">
                 <div id="snow-container" class="absolute inset-0 pointer-events-none z-0"></div>
@@ -392,94 +395,25 @@
     </section>
 
     <!-- Modal omitted for brevity -->
-    <div id="modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6"><div id="modal-overlay" class="absolute inset-0 bg-black/60 backdrop-blur-md opacity-0" onclick="closeModal()"></div><div id="modal-content" class="relative w-full max-w-[600px] bg-white rounded-[32px] shadow-2xl max-h-[90vh] overflow-y-auto opacity-0 scale-95 p-8 md:p-10"><button onclick="closeModal()" class="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-100 transition-colors z-10"><span class="material-symbols-rounded">close</span></button><div class="mb-0"><h2 class="text-[28px] font-bold text-primary mb-6 tracking-tighter">Результат процедуры</h2><div class="bg-background rounded-2xl p-6 mb-6"><p class="text-[16px] text-secondary leading-[1.6] mb-0 tracking-tight">После процедуры ваша кожа насытится кислородом, мелкие морщинки разгладятся, а овал лица станет более подтянутым. Уйдут отеки, и лицо приобретет здоровый, сияющий вид. Эффект заметен уже после первого сеанса.</p></div><button onclick="closeModal()" class="w-full bg-accent hover:bg-accent-hover text-primary font-medium py-3.5 rounded-xl transition-colors tracking-tight">Понятно, спасибо</button></div></div></div>
+    <div id="modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6"><div id="modal-overlay" class="absolute inset-0 bg-black/60 backdrop-blur-md opacity-0" onclick="closeModal()"></div><div id="modal-content" class="relative w-full max-w-[600px] bg-white rounded-[32px] shadow-2xl max-h-[90vh] overflow-y-auto opacity-0 scale-95 p-8 md:p-10"><button onclick="closeModal()" class="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-100 transition-colors z-10"><span class="material-symbols-rounded">close</span></button><div id="modal-body" class="mb-0"></div></div></div>
 
     <script>
-        // Init Blur Text (Preserve Structure)
-        function initBlurText() {
-            const elements = document.querySelectorAll('.blur-text');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const spans = entry.target.querySelectorAll('.blur-word');
-                        spans.forEach((span, index) => { setTimeout(() => { span.classList.add('active'); }, index * 120); });
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.2 });
-
-            elements.forEach(el => {
-                const nodes = Array.from(el.childNodes);
-                el.innerHTML = ''; 
-                nodes.forEach(node => {
-                    if (node.nodeType === 3) { 
-                        const words = node.textContent.trim().split(/\s+/);
-                        words.forEach((word) => {
-                            if(word) {
-                                const span = document.createElement('span');
-                                span.innerText = word + ' '; 
-                                span.classList.add('blur-word');
-                                el.appendChild(span);
-                            }
-                        });
-                    } else { el.appendChild(node.cloneNode(true)); }
-                });
-                observer.observe(el);
-            });
-        }
-        document.addEventListener('DOMContentLoaded', initBlurText);
-
-        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); } });
-        }, observerOptions);
-        document.querySelectorAll('.scroll-animate').forEach(card => { observer.observe(card); });
-
-        // Watermark Fade & Split
-        window.addEventListener('scroll', () => {
-            const watermarkText = document.querySelector('.watermark-text');
-            if (watermarkText) {
-                const scroll = window.scrollY;
-                let opacity = 0.5 - scroll / 500;
-                if (opacity < 0) opacity = 0;
-                watermarkText.style.opacity = opacity;
-                
-                // SPLIT
-                let spacing = -0.035 + (scroll / 5000); 
-                watermarkText.style.letterSpacing = spacing + 'em';
-            }
-        });
-
-        // 3rd Block Split (INCREASED DISTANCE)
-        window.addEventListener('scroll', () => {
-            const section = document.getElementById('services');
-            if (!section) return;
-            const leftTitle = document.getElementById('left-title');
-            const rightTitle = document.getElementById('right-title');
-            if (!leftTitle || !rightTitle) return;
-
-            const rect = section.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
-            const animationLength = windowHeight * 0.5;
-            const scrolledIntoSection = -rect.top + 50;
-            
-            let progress = 0;
-            if (scrolledIntoSection < 0) { progress = 0; } 
-            else { progress = Math.min(scrolledIntoSection / animationLength, 1); }
-            
-            // INCREASED to 290px to push text further out to the edges
-            const maxTranslatePx = 290; 
-            const currentTranslate = maxTranslatePx * progress;
-            
-            leftTitle.style.transform = `translateX(-${currentTranslate}px)`;
-            rightTitle.style.transform = `translateX(${currentTranslate}px)`;
-        });
-
-        const modal = document.getElementById('modal'); const overlay = document.getElementById('modal-overlay'); const modalContent = document.getElementById('modal-content'); const body = document.body; function openModal(serviceType) { modal.classList.remove('hidden'); modal.classList.add('flex'); body.classList.add('modal-open'); setTimeout(() => { overlay.classList.remove('opacity-0'); modalContent.classList.remove('opacity-0', 'scale-95'); modalContent.classList.add('opacity-100', 'scale-100'); }, 10); } function closeModal() { overlay.classList.add('opacity-0'); modalContent.classList.remove('opacity-100', 'scale-100'); modalContent.classList.add('opacity-0', 'scale-95'); setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); body.classList.remove('modal-open'); }, 300); } document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) { closeModal(); } });
-        
-        function createSnowflakes() { const container = document.getElementById('snow-container'); const flakeCount = 40; for (let i = 0; i < flakeCount; i++) { const flake = document.createElement('div'); flake.classList.add('snowflake'); const size = Math.random() * 3 + 2 + 'px'; flake.style.width = size; flake.style.height = size; flake.style.left = Math.random() * 100 + '%'; flake.style.animationDuration = Math.random() * 3 + 5 + 's'; flake.style.animationDelay = Math.random() * 5 + 's'; container.appendChild(flake); } } createSnowflakes();
-        
+        const modalData = {
+            'massage': { title: 'Массаж лица', description: 'После процедуры ваша кожа насытится кислородом, мелкие морщинки разгладятся, а овал лица станет более подтянутым. Уйдут отеки, и лицо приобретет здоровый, сияющий вид. Эффект заметен уже после первого сеанса.', highlight: 'Результат: Лифтинг, снятие отечности, здоровый цвет лица.' },
+            'peeling': { title: 'Пилинги', description: 'Пилинги обновляют кожу на клеточном уровне, выравнивают тон и рельеф. После процедуры кожа становится гладкой, сияющей, поры сужаются, а пигментация становится менее заметной.', highlight: 'Результат: Ровный тон, сужение пор, сияние.' },
+            'care': { title: 'Уходовые процедуры', description: 'Комплексный уход глубоко увлажняет и питает кожу. Восстанавливает защитный барьер, снимает раздражение и сухость. Идеально подходит для подготовки к важному событию.', highlight: 'Результат: Глубокое увлажнение, питание, восстановление.' }
+        };
+        const modalBody = document.getElementById('modal-body');
         function toggleBenefits() { const content = document.getElementById('benefits-content'); const icon = document.getElementById('benefits-icon'); if (content.style.maxHeight) { content.style.maxHeight = null; content.classList.remove('open'); icon.textContent = 'add'; icon.style.transform = 'rotate(0deg)'; } else { content.style.maxHeight = content.scrollHeight + "px"; content.classList.add('open'); icon.textContent = 'add'; icon.style.transform = 'rotate(45deg)'; } }
+        function initBlurText() { const elements = document.querySelectorAll('.blur-text'); const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { const spans = entry.target.querySelectorAll('.blur-word'); spans.forEach((span, index) => { setTimeout(() => { span.classList.add('active'); }, index * 120); }); observer.unobserve(entry.target); } }); }, { threshold: 0.2 }); elements.forEach(el => { const nodes = Array.from(el.childNodes); el.innerHTML = ''; nodes.forEach(node => { if (node.nodeType === 3) { const words = node.textContent.trim().split(/\s+/); words.forEach((word) => { if(word) { const span = document.createElement('span'); span.innerText = word + ' '; span.classList.add('blur-word'); el.appendChild(span); } }); } else { el.appendChild(node.cloneNode(true)); } }); observer.observe(el); }); }
+        document.addEventListener('DOMContentLoaded', initBlurText);
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 }; const observer = new IntersectionObserver((entries, observer) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); } }); }, observerOptions); document.querySelectorAll('.scroll-animate').forEach(card => { observer.observe(card); });
+        window.addEventListener('scroll', () => { const watermarkText = document.querySelector('.watermark-text'); if (watermarkText) { const scroll = window.scrollY; let opacity = 0.5 - scroll / 500; if (opacity < 0) opacity = 0; watermarkText.style.opacity = opacity; let spacing = -0.02 + (scroll / 3000); watermarkText.style.letterSpacing = spacing + 'em'; } });
+        window.addEventListener('scroll', () => { const section = document.getElementById('services'); if (!section) return; const leftTitle = document.getElementById('left-title'); const rightTitle = document.getElementById('right-title'); if (!leftTitle || !rightTitle) return; const rect = section.getBoundingClientRect(); const windowHeight = window.innerHeight; const animationLength = windowHeight * 0.5; const scrolledIntoSection = -rect.top + 50; let progress = 0; if (scrolledIntoSection < 0) { progress = 0; } else { progress = Math.min(scrolledIntoSection / animationLength, 1); } const maxTranslatePx = 260; const currentTranslate = maxTranslatePx * progress; leftTitle.style.transform = `translateX(-${currentTranslate}px)`; rightTitle.style.transform = `translateX(${currentTranslate}px)`; });
+        const modal = document.getElementById('modal'); const overlay = document.getElementById('modal-overlay'); const modalContent = document.getElementById('modal-content'); const body = document.body; function openModal(serviceType) { const data = modalData[serviceType]; if (!data) return; modalBody.innerHTML = `<h2 class="text-[28px] font-bold text-primary mb-6 tracking-tighter">${data.title}</h2><div class="bg-background rounded-2xl p-6 mb-6"><p class="text-[16px] text-secondary leading-[1.6] mb-4 tracking-tight">${data.description}</p><p class="text-[15px] font-medium text-primary tracking-tight">${data.highlight}</p></div><button onclick="closeModal()" class="w-full bg-accent hover:bg-accent-hover text-primary font-medium py-3.5 rounded-xl transition-colors tracking-tight">Понятно, спасибо</button>`; modal.classList.remove('hidden'); modal.classList.add('flex'); body.classList.add('modal-open'); setTimeout(() => { overlay.classList.remove('opacity-0'); modalContent.classList.remove('opacity-0', 'scale-95'); modalContent.classList.add('opacity-100', 'scale-100'); }, 10); } function closeModal() { overlay.classList.add('opacity-0'); modalContent.classList.remove('opacity-100', 'scale-100'); modalContent.classList.add('opacity-0', 'scale-95'); setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); body.classList.remove('modal-open'); }, 300); } document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) { closeModal(); } });
+        
+        // Snow (Inside container)
+        function createSnowflakes() { const container = document.getElementById('snow-container'); const flakeCount = 40; for (let i = 0; i < flakeCount; i++) { const flake = document.createElement('div'); flake.classList.add('snowflake'); const size = Math.random() * 3 + 2 + 'px'; flake.style.width = size; flake.style.height = size; flake.style.left = Math.random() * 100 + '%'; flake.style.animationDuration = Math.random() * 3 + 5 + 's'; flake.style.animationDelay = Math.random() * 5 + 's'; container.appendChild(flake); } } createSnowflakes();
     </script>
 </body>
 </html>
