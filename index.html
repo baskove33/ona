@@ -92,6 +92,7 @@
         #modal-content { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease; }
         body.modal-open { overflow: hidden; }
 
+        /* SNOWFALL ANIMATION - FIXED */
         .snowflake {
             position: absolute;
             top: -20px;
@@ -140,6 +141,7 @@
     <!-- БЛОК 1: HERO -->
     <main class="relative z-10 w-full max-w-[1840px] mx-auto px-layout-px pt-24 lg:pt-20 pb-0 min-h-screen flex flex-col justify-center">
         
+        <!-- Grid Content -->
         <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end relative z-10">
             
             <div class="lg:col-span-5 flex flex-col items-start text-left relative z-10 pb-12 lg:pb-16">
@@ -202,7 +204,7 @@
                  </div>
             </div>
 
-            <!-- Mobile Image (Visible only on small screens) -->
+            <!-- Mobile Image -->
              <div class="lg:hidden w-full relative h-[400px] fade-in-up delay-500 opacity-0 order-last">
                  <img src="https://res.cloudinary.com/dt79npeea/image/upload/v1766514540/2622_dlx8qw.png" 
                       alt="Face Massage" 
@@ -338,7 +340,7 @@
     </section>
 
     <!-- БЛОК 4: АКЦИЯ -->
-    <!-- Уменьшен отступ сверху py-12 -->
+    <!-- Уменьшен отступ сверху py-12 (было больше) -->
     <section class="relative bg-background py-12 z-10">
         <div class="max-w-[1840px] mx-auto px-layout-px">
             <div class="relative w-full rounded-[32px] overflow-hidden bg-gradient-to-br from-[#5C0B0B] via-[#781919] to-[#450505] shadow-2xl shadow-red-900/20">
@@ -499,6 +501,7 @@
         function initBlurText() { const elements = document.querySelectorAll('.blur-text'); const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { const spans = entry.target.querySelectorAll('.blur-word'); spans.forEach((span, index) => { setTimeout(() => { span.classList.add('active'); }, index * 120); }); observer.unobserve(entry.target); } }); }, { threshold: 0.2 }); elements.forEach(el => { const nodes = Array.from(el.childNodes); el.innerHTML = ''; nodes.forEach(node => { if (node.nodeType === 3) { const words = node.textContent.trim().split(/\s+/); words.forEach((word) => { if(word) { const span = document.createElement('span'); span.innerText = word + ' '; span.classList.add('blur-word'); el.appendChild(span); } }); } else { el.appendChild(node.cloneNode(true)); } }); observer.observe(el); }); }
         document.addEventListener('DOMContentLoaded', initBlurText);
         const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 }; const observer = new IntersectionObserver((entries, observer) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); } }); }, observerOptions); document.querySelectorAll('.scroll-animate').forEach(card => { observer.observe(card); });
+        window.addEventListener('scroll', () => { const watermarkText = document.querySelector('.watermark-text'); if (watermarkText) { const scroll = window.scrollY; let opacity = 0.5 - scroll / 500; if (opacity < 0) opacity = 0; watermarkText.style.opacity = opacity; let spacing = -0.02 + (scroll / 3000); watermarkText.style.letterSpacing = spacing + 'em'; } });
         window.addEventListener('scroll', () => { const section = document.getElementById('services'); if (!section) return; const leftTitle = document.getElementById('left-title'); const rightTitle = document.getElementById('right-title'); if (!leftTitle || !rightTitle) return; const rect = section.getBoundingClientRect(); const windowHeight = window.innerHeight; const animationLength = windowHeight * 0.5; const scrolledIntoSection = -rect.top + 50; let progress = 0; if (scrolledIntoSection < 0) { progress = 0; } else { progress = Math.min(scrolledIntoSection / animationLength, 1); } const maxTranslatePx = 260; const currentTranslate = maxTranslatePx * progress; leftTitle.style.transform = `translateX(-${currentTranslate}px)`; rightTitle.style.transform = `translateX(${currentTranslate}px)`; });
         const modal = document.getElementById('modal'); const overlay = document.getElementById('modal-overlay'); const modalContent = document.getElementById('modal-content'); const body = document.body; function openModal(serviceType) { const data = modalData[serviceType]; if (!data) return; modalBody.innerHTML = `<h2 class="text-[28px] font-bold text-primary mb-6 tracking-tighter">${data.title}</h2><div class="bg-background rounded-2xl p-6 mb-6"><p class="text-[16px] text-secondary leading-[1.6] mb-4 tracking-tight">${data.description}</p><p class="text-[15px] font-medium text-primary tracking-tight">${data.highlight}</p></div><button onclick="closeModal()" class="w-full bg-accent hover:bg-accent-hover text-primary font-medium py-3.5 rounded-xl transition-colors tracking-tight">Понятно, спасибо</button>`; modal.classList.remove('hidden'); modal.classList.add('flex'); body.classList.add('modal-open'); setTimeout(() => { overlay.classList.remove('opacity-0'); modalContent.classList.remove('opacity-0', 'scale-95'); modalContent.classList.add('opacity-100', 'scale-100'); }, 10); } function closeModal() { overlay.classList.add('opacity-0'); modalContent.classList.remove('opacity-100', 'scale-100'); modalContent.classList.add('opacity-0', 'scale-95'); setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); body.classList.remove('modal-open'); }, 300); } document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) { closeModal(); } });
         
