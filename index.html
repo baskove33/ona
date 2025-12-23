@@ -39,6 +39,9 @@
                     letterSpacing: {
                         'tight': '-0.02em',       
                         'tighter': '-0.035em',    
+                    },
+                    spacing: {
+                        'layout-px': 'clamp(20px, 4vw, 60px)', // Глобальный паддинг
                     }
                 }
             }
@@ -103,7 +106,7 @@
         @keyframes fall {
             0% { transform: translateY(-10px) translateX(0); opacity: 0; }
             20% { opacity: 0.8; }
-            100% { transform: translateY(100%) translateX(20px); opacity: 0; }
+            100% { transform: translateY(100%) translateX(20px); opacity: 0.2; }
         }
     </style>
 </head>
@@ -118,7 +121,8 @@
 
     <!-- Header -->
     <header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-transparent transition-all duration-300 py-4">
-        <div class="max-w-[1440px] mx-auto px-6 lg:px-12 flex items-center justify-between">
+        <!-- WIDE LAYOUT UPDATE: max-w-[1840px] + adaptive px -->
+        <div class="max-w-[1840px] mx-auto w-full px-layout-px flex items-center justify-between">
             <a href="#" class="text-2xl font-bold tracking-tighter z-50 relative group text-primary">
                 ONA™
             </a>
@@ -141,7 +145,8 @@
     </header>
 
     <!-- БЛОК 1: HERO -->
-    <main class="relative z-10 w-full max-w-[1440px] mx-auto px-6 lg:px-12 pt-28 lg:pt-36 pb-12 min-h-screen flex flex-col justify-center overflow-hidden">
+    <!-- WIDE LAYOUT UPDATE: max-w-[1840px] + adaptive px -->
+    <main class="relative z-10 w-full max-w-[1840px] mx-auto px-layout-px pt-28 lg:pt-36 pb-12 min-h-screen flex flex-col justify-center overflow-hidden">
         
         <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
             
@@ -202,8 +207,9 @@
     </main>
 
     <!-- БЛОК 2: ПОЧЕМУ ONA FACE? -->
+    <!-- WIDE LAYOUT UPDATE -->
     <section id="about" class="bg-background py-20 lg:py-32 relative z-10 w-full border-t border-gray-100/50">
-        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+        <div class="max-w-[1840px] mx-auto px-layout-px">
             <div class="flex flex-col lg:flex-row gap-12 lg:gap-0">
                 <div class="w-full lg:w-[40%] flex flex-col items-start relative select-none">
                     <div class="sticky top-32">
@@ -280,7 +286,8 @@
         </div>
 
         <!-- Контент (Карточки) -->
-        <div class="relative z-10 max-w-[1440px] mx-auto px-6 lg:px-12 pb-20 lg:-mt-[100vh]">
+        <!-- WIDE LAYOUT UPDATE -->
+        <div class="relative z-10 max-w-[1840px] mx-auto px-layout-px pb-20 lg:-mt-[100vh]">
             <div class="flex flex-col items-center gap-6 lg:pt-[100vh]">
                 
                 <!-- Мобильный заголовок -->
@@ -359,7 +366,8 @@
 
     <!-- БЛОК 4: АКЦИЯ -->
     <section class="relative bg-background py-24 z-10">
-        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+        <!-- WIDE LAYOUT UPDATE -->
+        <div class="max-w-[1840px] mx-auto px-layout-px">
             <div class="relative w-full rounded-[32px] overflow-hidden bg-gradient-to-br from-[#5C0B0B] via-[#781919] to-[#450505] shadow-2xl shadow-red-900/20">
                 <div id="snow-container" class="absolute inset-0 pointer-events-none z-0"></div>
                 <div class="relative z-10 flex flex-col items-start justify-center py-16 px-8 md:px-16 text-left">
