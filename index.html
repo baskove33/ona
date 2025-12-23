@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
     
     <!-- Подключение иконок Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -28,11 +27,10 @@
                         secondary: '#6B6B6B',      // Вторичный текст (Средне-серый)
                         accent: '#D4C4B0',         // Акцент (Песочный)
                         'accent-hover': '#C9B89A', // Акцент при наведении
-                        watermark: '#F0EBE5',      // Цвет watermark
+                        watermark: '#E5E5E5',      // Цвет watermark
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
                     },
                     fontSize: {
                         'watermark': 'clamp(150px, 25vw, 400px)',
@@ -54,7 +52,7 @@
         }
         .avatar-stack > * {
             transition: transform 0.3s ease;
-            border: 2px solid #FAF8F5;
+            border: 3px solid #FAF8F5;
         }
 
         /* Анимация аккордеона */
@@ -81,7 +79,7 @@
         .scroll-animate {
             opacity: 0;
             transform: translateY(100px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); /* Плавный ease-out */
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
         /* Активное состояние анимации скролла */
@@ -102,31 +100,30 @@
         }
     </style>
 </head>
-<body class="bg-background text-primary font-sans antialiased overflow-x-hidden relative min-h-screen flex flex-col">
+<body class="bg-background text-primary font-sans antialiased overflow-x-hidden relative min-h-screen flex flex-col tracking-tight">
 
     <!-- Watermark (Фоновая типографика) -->
-    <div class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full text-center pointer-events-none z-0 select-none overflow-hidden flex justify-center items-end">
-        <span class="text-watermark font-black leading-none opacity-50 block translate-y-[10%] tracking-tighter text-[#F0EBE5]">
+    <div class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none z-0 select-none overflow-hidden flex justify-center items-center">
+        <span class="text-[20vw] lg:text-[380px] font-black leading-none text-watermark opacity-60 tracking-tighter">
             ONA
         </span>
     </div>
 
     <!-- Header Navigation -->
-    <header class="fixed top-0 w-full z-50 bg-background/90 backdrop-blur-sm border-b border-gray-100/50 transition-all duration-300">
-        <div class="max-w-[1440px] mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
-            <a href="#" class="text-2xl font-bold tracking-tight z-50 relative group">
-                ONA<span class="align-top text-xs font-normal ml-0.5 opacity-60">™</span>
-                <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all group-hover:w-full"></span>
+    <header class="fixed top-0 w-full z-50 bg-[#FAF8F5]/95 backdrop-blur-md transition-all duration-300 py-5 lg:py-6">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-12 flex items-center justify-between">
+            <a href="#" class="text-2xl font-bold tracking-tighter z-50 relative group text-[#2B2B2B]">
+                ONA™
             </a>
 
-            <nav class="hidden md:flex items-center gap-8 lg:gap-12 text-sm font-medium text-primary">
-                <a href="#" class="hover:text-secondary transition-colors">О нас</a>
-                <a href="#" class="hover:text-secondary transition-colors">Услуги</a>
-                <a href="#" class="hover:text-secondary transition-colors">Контакты</a>
+            <nav class="hidden md:flex items-center gap-10 text-[16px] font-normal text-[#6B6B6B] tracking-tight">
+                <a href="#about" class="hover:text-primary transition-colors">О нас</a>
+                <a href="#services" class="hover:text-primary transition-colors">Услуги</a>
+                <a href="#contacts" class="hover:text-primary transition-colors">Контакты</a>
             </nav>
 
             <div class="flex items-center gap-4">
-                <a href="#" class="hidden sm:inline-flex bg-accent hover:bg-accent-hover text-primary px-6 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200">
+                <a href="#booking" class="hidden sm:inline-flex bg-accent hover:bg-accent-hover text-primary px-7 py-3.5 rounded-[10px] text-[16px] font-medium transition-colors duration-200 tracking-tight">
                     Записаться
                 </a>
                 <button class="md:hidden p-2 text-primary">
@@ -137,101 +134,100 @@
     </header>
 
     <!-- БЛОК 1: HERO -->
-    <main class="flex-grow relative z-10 w-full max-w-[1440px] mx-auto px-6 lg:px-12 pt-32 lg:pt-40 pb-20">
-        <div class="relative w-full">
-            <div class="hidden lg:block absolute top-0 right-0 max-w-[400px] text-right z-20">
-                <p class="text-[18px] lg:text-[22px] font-normal text-[#6B6B6B] leading-tight">
-                    Мы убираем лишнее,<br>
-                    чтобы сосредоточиться<br>
-                    на том, что действительно работает
-                </p>
-                <div class="mt-6 w-16 h-px bg-primary ml-auto"></div>
-            </div>
-
-            <div class="w-full lg:max-w-[60%] flex flex-col items-start text-left">
-                <h1 class="font-bold text-primary tracking-tight text-[56px] lg:text-[72px] leading-[1.15] mb-0 max-w-[800px]">
+    <main class="relative z-10 w-full max-w-[1440px] mx-auto px-6 lg:px-12 pt-32 lg:pt-40 pb-20">
+        
+        <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-12">
+            
+            <!-- Left Column: Main Content -->
+            <div class="lg:col-span-8 flex flex-col items-start text-left relative z-10">
+                
+                <h1 class="font-bold text-[#1A1A1A] tracking-tighter text-[56px] lg:text-[72px] leading-[1.15] mb-8 max-w-[800px]">
                     Ваша самая здоровая<br>
                     кожа раскрыта
                 </h1>
 
-                <div class="mt-8 flex flex-wrap items-center gap-6">
+                <div class="flex flex-wrap items-center gap-4">
+                    <!-- Аватары -->
                     <div class="flex -space-x-3 avatar-stack">
-                        <img src="https://i.pravatar.cc/100?img=1" alt="Client" class="w-10 h-10 rounded-full object-cover">
-                        <img src="https://i.pravatar.cc/100?img=5" alt="Client" class="w-10 h-10 rounded-full object-cover">
-                        <img src="https://i.pravatar.cc/100?img=9" alt="Client" class="w-10 h-10 rounded-full object-cover">
-                        <img src="https://i.pravatar.cc/100?img=32" alt="Client" class="w-10 h-10 rounded-full object-cover">
-                        <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-xs font-bold border-2 border-[#FAF8F5]">
+                        <div class="w-12 h-12 rounded-full border-[3px] border-[#FAF8F5] bg-gray-200 flex items-center justify-center font-bold text-xs overflow-hidden">
+                             <img src="https://i.pravatar.cc/100?img=1" class="w-full h-full object-cover">
+                        </div>
+                        <div class="w-12 h-12 rounded-full border-[3px] border-[#FAF8F5] bg-gray-200 flex items-center justify-center font-bold text-xs overflow-hidden">
+                             <img src="https://i.pravatar.cc/100?img=5" class="w-full h-full object-cover">
+                        </div>
+                        <div class="w-12 h-12 rounded-full border-[3px] border-[#FAF8F5] bg-gray-200 flex items-center justify-center font-bold text-xs overflow-hidden">
+                             <img src="https://i.pravatar.cc/100?img=9" class="w-full h-full object-cover">
+                        </div>
+                        <div class="w-12 h-12 rounded-full border-[3px] border-[#FAF8F5] bg-gray-200 flex items-center justify-center font-bold text-xs overflow-hidden">
+                             <img src="https://i.pravatar.cc/100?img=32" class="w-full h-full object-cover">
+                        </div>
+                        <div class="w-12 h-12 rounded-full border-[3px] border-[#FAF8F5] bg-gradient-to-br from-[#D4C4B0] to-[#C9B89A] flex items-center justify-center font-semibold text-xs text-[#2B2B2B]">
                             +2k
                         </div>
                     </div>
-                    <div class="flex flex-col">
-                        <div class="flex gap-0.5 text-primary mb-1">
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
-                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    
+                    <!-- Рейтинг -->
+                    <div class="flex flex-col gap-1">
+                        <div class="flex gap-1 text-[#2B2B2B] text-lg tracking-widest">
+                            ★★★★★
                         </div>
-                        <span class="text-xs text-[#6B6B6B] font-medium">2500+ Довольных клиентов</span>
+                        <span class="text-sm text-[#999999] tracking-tight">2500+ Довольных клиентов</span>
                     </div>
                 </div>
 
-                <p class="mt-6 text-[16px] lg:text-[18px] text-[#6B6B6B] font-normal max-w-[550px] leading-normal">
+                <p class="mt-6 text-[16px] lg:text-[18px] text-[#6B6B6B] font-normal leading-[1.6] max-w-[550px] tracking-tight">
                     Мягко обновляем кожу, снимаем стресс, возвращаем сияние
                 </p>
 
                 <div class="flex flex-col items-start w-full">
-                    <div class="mt-8 inline-flex items-center gap-2 px-3 py-1.5 rounded-[8px] border border-[#D4C4B0]/50 bg-[#F7F4F0] text-sm text-primary">
+                    <div class="mt-8 inline-flex items-center gap-2 px-4 py-2.5 rounded-[8px] border border-[#D4C4B0] bg-[#FAF8F5] text-[15px] text-[#2B2B2B] tracking-tight">
                         <span>🎁</span>
                         <span>-30% для новых клиентов в декабре</span>
                     </div>
 
-                    <button class="mt-4 bg-accent hover:bg-accent-hover text-primary text-[16px] font-medium px-8 py-4 rounded-[12px] transition-all shadow-sm hover:shadow-md w-full sm:w-auto text-center transform hover:-translate-y-0.5 duration-200">
+                    <button class="mt-4 bg-accent hover:bg-accent-hover text-[#2B2B2B] text-[16px] font-medium px-8 py-4 rounded-[12px] transition-all shadow-sm hover:shadow-md w-full sm:w-auto text-center transform hover:-translate-y-0.5 duration-200 tracking-tight">
                         Записаться на консультацию
                     </button>
 
-                    <span class="mt-3 text-[14px] text-gray-400 pl-1">
+                    <span class="mt-3 text-[13px] lg:text-[14px] text-[#999999] leading-relaxed tracking-tight">
                         Бесплатная консультация (около 15 минут) перед каждой процедурой
                     </span>
                 </div>
             </div>
+
+            <div class="hidden lg:block lg:col-span-4 relative"></div>
         </div>
     </main>
 
     <!-- БЛОК 2: ПОЧЕМУ ONA FACE? -->
-    <section class="bg-white py-24 lg:py-32 relative z-10 w-full border-t border-gray-100">
+    <section id="about" class="bg-white py-24 lg:py-32 relative z-10 w-full border-t border-gray-100">
         <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
             <div class="flex flex-col lg:flex-row gap-12 lg:gap-0">
                 <!-- Левая колонка -->
                 <div class="w-full lg:w-[40%] flex flex-col items-start relative select-none">
-                    <div class="flex flex-col leading-none sticky top-32">
-                        <span class="text-[64px] lg:text-[80px] font-black tracking-tight text-[#1A1A1A] z-10">
-                            Почему
-                        </span>
-                        <span class="text-[140px] lg:text-[200px] font-light text-[#E5E5E5] opacity-30 -my-4 lg:-my-10 -ml-2 lg:-ml-4 select-none pointer-events-none">
-                            &amp;
-                        </span>
-                        <span class="text-[80px] lg:text-[110px] font-black tracking-tighter text-[#1A1A1A] -mt-6 lg:-mt-16 z-10 leading-[0.9]">
-                            ONA<br>Face?
-                        </span>
+                    <div class="sticky top-32">
+                        <h2 class="text-[56px] lg:text-[72px] font-bold tracking-tighter text-[#1A1A1A] leading-[1.0] lg:leading-[1.0] mb-6">
+                            Почему<br>
+                            ONA Face?
+                        </h2>
                     </div>
                 </div>
 
                 <!-- Правая колонка -->
                 <div class="w-full lg:w-[60%] flex flex-col lg:pl-16 pt-2">
                     <div class="max-w-[650px] mb-8">
-                        <p class="text-[16px] lg:text-[18px] leading-[1.7] text-[#4A4A4A] font-normal">
+                        <p class="text-[16px] lg:text-[18px] leading-[1.7] text-[#4A4A4A] font-normal tracking-tight">
                             Мы специализируемся на массаже лица и деликатных пилингах, которые работают с естественными процессами кожи. Наш подход — <span class="font-bold text-[#1A1A1A]">бережное обновление</span> без агрессивного воздействия, где <span class="font-bold text-[#1A1A1A]">каждая процедура</span> запускает выработку коллагена и стимулирует клеточное обновление.
                         </p>
                     </div>
 
                     <div class="mb-12 max-w-[650px]">
-                        <button onclick="toggleBenefits()" class="group mt-8 flex items-center gap-3 text-[16px] font-medium text-[#1A1A1A] hover:text-accent transition-colors focus:outline-none w-full text-left">
+                        <button onclick="toggleBenefits()" class="group mt-8 flex items-center gap-3 text-[16px] font-medium text-[#1A1A1A] hover:text-accent transition-colors focus:outline-none w-full text-left tracking-tight">
                             <span id="benefits-icon" class="text-xl leading-none transition-transform duration-300 transform group-hover:scale-110">+</span>
                             <span>Ключевые преимущества</span>
                         </button>
                         <div id="benefits-content" class="accordion-content pl-7 mt-4">
-                            <ul class="space-y-4 text-[16px] text-[#4A4A4A] leading-[1.7]">
+                            <ul class="space-y-4 text-[16px] text-[#4A4A4A] leading-[1.7] tracking-tight">
                                 <li class="flex items-start gap-3">
                                     <span class="text-gray-400 mt-1.5 text-[8px]">●</span>
                                     <span>Пилинг действует внутри эпидермиса — глубоко очищает и стимулирует обмен веществ</span>
@@ -250,28 +246,28 @@
 
                     <div class="w-full mt-12">
                         <div class="flex items-center justify-between mb-6">
-                            <h3 class="text-[16px] font-medium text-[#1A1A1A] flex items-center gap-2">
+                            <h3 class="text-[16px] font-medium text-[#1A1A1A] flex items-center gap-2 tracking-tight">
                                 <span class="text-accent text-lg">+</span> Наши работы
                             </h3>
                         </div>
                         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                            <!-- Галерея (сокращена для примера, но структура сохранена) -->
-                            <div class="aspect-[3/4] rounded-[20px] overflow-hidden bg-gray-100 group relative cursor-pointer">
+                            <!-- Галерея -->
+                            <div class="aspect-[3/4] rounded-[20px] overflow-hidden bg-gray-100 group relative cursor-pointer border border-gray-100">
                                 <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?q=80&w=300&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                             </div>
-                            <div class="aspect-[3/4] rounded-[20px] overflow-hidden bg-gray-100 group relative cursor-pointer">
+                            <div class="aspect-[3/4] rounded-[20px] overflow-hidden bg-gray-100 group relative cursor-pointer border border-gray-100">
                                 <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=300&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                             </div>
-                            <div class="aspect-[3/4] rounded-[20px] overflow-hidden bg-gray-100 group relative cursor-pointer">
+                            <div class="aspect-[3/4] rounded-[20px] overflow-hidden bg-gray-100 group relative cursor-pointer border border-gray-100">
                                 <img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=300&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                             </div>
-                            <div class="aspect-[3/4] rounded-[20px] overflow-hidden bg-gray-100 group relative cursor-pointer">
+                            <div class="aspect-[3/4] rounded-[20px] overflow-hidden bg-gray-100 group relative cursor-pointer border border-gray-100">
                                 <img src="https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=300&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                             </div>
-                             <div class="aspect-[3/4] rounded-[20px] overflow-hidden bg-gray-100 group relative cursor-pointer">
+                             <div class="aspect-[3/4] rounded-[20px] overflow-hidden bg-gray-100 group relative cursor-pointer border border-gray-100">
                                 <img src="https://images.unsplash.com/photo-1552693673-1bf958298935?q=80&w=300&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                             </div>
-                            <div class="aspect-[3/4] rounded-[20px] overflow-hidden bg-gray-100 group relative cursor-pointer hidden lg:block">
+                            <div class="aspect-[3/4] rounded-[20px] overflow-hidden bg-gray-100 group relative cursor-pointer hidden lg:block border border-gray-100">
                                 <img src="https://images.unsplash.com/photo-1598256989494-026345d7e8cd?q=80&w=300&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
                             </div>
                         </div>
@@ -281,129 +277,121 @@
         </div>
     </section>
 
-    <!-- БЛОК 3: УСЛУГИ (STEP-BY-STEP SCROLL ANIMATION) -->
-    <section class="bg-[#FAF8F5] py-24 lg:py-40 relative z-10 w-full border-t border-gray-100">
-        <div class="max-w-[1440px] mx-auto px-6 lg:px-12">
+    <!-- БЛОК 3: УСЛУГИ (SPLIT ANIMATION) -->
+    <section id="services" class="relative bg-[#FAF8F5] min-h-[300vh] w-full z-10">
+        
+        <!-- Sticky Header Container (Ворота) -->
+        <div class="sticky top-0 h-screen w-full flex items-center justify-center pointer-events-none z-20 overflow-hidden">
+            <!-- Левый заголовок -->
+            <!-- ИСПРАВЛЕНО: Добавлен заголовок "УСЛУГИ", отступ pr-4 (ближе к центру) -->
+            <div id="left-title" class="w-1/2 flex flex-col items-end justify-center pr-2 lg:pr-4 will-change-transform">
+                <!-- Новый заголовок "УСЛУГИ" двигается вместе -->
+                <span class="text-[12px] font-semibold tracking-widest text-[#999999] mb-4 uppercase text-right">Услуги</span>
+                <h2 class="text-[28px] lg:text-[32px] font-light leading-none text-primary text-right whitespace-nowrap tracking-tighter">
+                    Ваши процедуры<br>для красоты
+                </h2>
+            </div>
             
-            <div class="flex flex-col lg:flex-row items-start justify-between">
+            <!-- Правый заголовок -->
+            <!-- ИСПРАВЛЕНО: Отступ pl-4 (ближе к центру) -->
+            <!-- "преображение" опущено чуть ниже (mt-8) для визуального баланса с "Услуги" -->
+            <div id="right-title" class="w-1/2 flex flex-col items-start justify-center pl-2 lg:pl-4 will-change-transform mt-8">
+                <h2 class="text-[28px] lg:text-[32px] font-light leading-none text-primary text-left whitespace-nowrap tracking-tighter">
+                    преображение<br>кожи
+                </h2>
+            </div>
+        </div>
+
+        <!-- Контент (Карточки) -->
+        <div class="relative z-10 max-w-[1440px] mx-auto px-6 lg:px-12 pb-20 -mt-[80vh]">
+            <div class="flex flex-col items-center gap-24 pt-[100vh]">
                 
-                <!-- 1. Фиксированный заголовок (Sticky Left) - 35-40% -->
-                <div class="w-full lg:w-[40%] mb-12 lg:mb-0 lg:sticky lg:top-32 lg:self-start z-20">
-                    <h2 class="text-[56px] lg:text-[72px] leading-[1.1] text-primary font-bold tracking-tight">
-                        Ваши процедуры<br>
-                        для красоты
-                    </h2>
-                    
-                    <div class="mt-4 lg:mt-8 pl-12 lg:pl-24">
-                        <span class="font-serif italic text-[56px] lg:text-[72px] text-primary leading-none block">
-                            преображение
-                        </span>
-                        <span class="text-[56px] lg:text-[72px] text-primary font-bold leading-none block mt-2">
-                            кожи
-                        </span>
+                <!-- Card 1 -->
+                <!-- ИСПРАВЛЕНО: Padding уменьшен до p-6 lg:p-8 -->
+                <div class="scroll-animate w-full max-w-[500px] bg-white rounded-[24px] p-6 lg:p-8 border border-[#E5E5E5] shadow-none transition-shadow duration-300">
+                    <div class="flex justify-between items-start mb-8">
+                        <div class="w-12 h-12 bg-[#FAF8F5] rounded-full flex items-center justify-center text-primary">
+                            <i data-lucide="sparkles" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex gap-1">
+                            <span class="text-primary font-bold text-lg">+</span>
+                            <span class="text-gray-300 font-bold text-lg">+</span>
+                            <span class="text-gray-300 font-bold text-lg">+</span>
+                        </div>
                     </div>
+                    <h3 class="text-[28px] lg:text-[32px] font-bold text-primary mb-4 tracking-tighter">Массаж лица</h3>
+                    <p class="text-[16px] text-secondary leading-[1.6] mb-8 tracking-tight">
+                        Залог упругой, здоровой и сияющей кожи. При массаже вырабатываются эндорфины, что влияет на самочувствие и улучшает настроение
+                    </p>
+                    <button onclick="openModal('massage')" class="group inline-flex items-center text-[15px] font-medium text-primary border-b border-transparent hover:border-primary transition-all pb-0.5 tracking-tight">
+                        <span class="mr-1 group-hover:mr-2 transition-all">+</span> Подробнее
+                    </button>
                 </div>
 
-                <!-- 2. Карточки услуг (Scroll Right) - 60-65% -->
-                <div class="w-full lg:w-[60%] flex flex-col items-center lg:items-end gap-12 lg:gap-24 pb-20">
-                    
-                    <!-- Card 1: Массаж лица -->
-                    <div class="scroll-animate w-full lg:max-w-[500px] bg-white rounded-[24px] p-10 lg:p-12 border border-[#E5E5E5] shadow-[0_4px_20px_rgba(0,0,0,0.08)] hover:shadow-xl transition-shadow duration-300">
-                        <!-- Header -->
-                        <div class="flex justify-between items-start mb-8">
-                            <div class="w-12 h-12 bg-[#FAF8F5] rounded-full flex items-center justify-center text-primary">
-                                <i data-lucide="sparkles" class="w-6 h-6"></i>
-                            </div>
-                            <div class="flex gap-1">
-                                <span class="text-primary font-bold text-lg">+</span>
-                                <span class="text-gray-300 font-bold text-lg">+</span>
-                                <span class="text-gray-300 font-bold text-lg">+</span>
-                            </div>
+                <!-- Card 2 -->
+                <!-- ИСПРАВЛЕНО: Padding уменьшен -->
+                <div class="scroll-animate w-full max-w-[500px] bg-white rounded-[24px] p-6 lg:p-8 border border-[#E5E5E5] shadow-none transition-shadow duration-300">
+                    <div class="flex justify-between items-start mb-8">
+                        <div class="w-12 h-12 bg-[#FAF8F5] rounded-full flex items-center justify-center text-primary">
+                            <i data-lucide="droplets" class="w-6 h-6"></i>
                         </div>
-                        
-                        <!-- Content -->
-                        <h3 class="text-[28px] lg:text-[32px] font-bold text-primary mb-4">Массаж лица</h3>
-                        <p class="text-[16px] text-secondary leading-[1.6] mb-8">
-                            Залог упругой, здоровой и сияющей кожи. При массаже вырабатываются эндорфины, что влияет на самочувствие и улучшает настроение
-                        </p>
-                        
-                        <!-- Button -->
-                        <button onclick="openModal('massage')" class="group inline-flex items-center text-[15px] font-medium text-primary border-b border-transparent hover:border-primary transition-all pb-0.5">
-                            <span class="mr-1 group-hover:mr-2 transition-all">+</span> Подробнее
-                        </button>
-                    </div>
-
-                    <!-- Card 2: Пилинги -->
-                    <div class="scroll-animate w-full lg:max-w-[500px] bg-white rounded-[24px] p-10 lg:p-12 border border-[#E5E5E5] shadow-[0_4px_20px_rgba(0,0,0,0.08)] hover:shadow-xl transition-shadow duration-300">
-                        <div class="flex justify-between items-start mb-8">
-                            <div class="w-12 h-12 bg-[#FAF8F5] rounded-full flex items-center justify-center text-primary">
-                                <i data-lucide="droplets" class="w-6 h-6"></i>
-                            </div>
-                            <div class="flex gap-1">
-                                <span class="text-gray-300 font-bold text-lg">+</span>
-                                <span class="text-primary font-bold text-lg">+</span>
-                                <span class="text-gray-300 font-bold text-lg">+</span>
-                            </div>
+                        <div class="flex gap-1">
+                            <span class="text-gray-300 font-bold text-lg">+</span>
+                            <span class="text-primary font-bold text-lg">+</span>
+                            <span class="text-gray-300 font-bold text-lg">+</span>
                         </div>
-                        <h3 class="text-[28px] lg:text-[32px] font-bold text-primary mb-4">Пилинги</h3>
-                        <p class="text-[16px] text-secondary leading-[1.6] mb-8">
-                            Миндальный пилинг отличается от скраба — он действует внутри эпидермиса, глубоко очищает и стимулирует обмен веществ, запускает выработку коллагена
-                        </p>
-                        <button class="group inline-flex items-center text-[15px] font-medium text-primary border-b border-transparent hover:border-primary transition-all pb-0.5">
-                            <span class="mr-1 group-hover:mr-2 transition-all">+</span> Подробнее
-                        </button>
                     </div>
-
-                    <!-- Card 3: Уходовые процедуры -->
-                    <div class="scroll-animate w-full lg:max-w-[500px] bg-white rounded-[24px] p-10 lg:p-12 border border-[#E5E5E5] shadow-[0_4px_20px_rgba(0,0,0,0.08)] hover:shadow-xl transition-shadow duration-300">
-                        <div class="flex justify-between items-start mb-8">
-                            <div class="w-12 h-12 bg-[#FAF8F5] rounded-full flex items-center justify-center text-primary">
-                                <i data-lucide="flower-2" class="w-6 h-6"></i>
-                            </div>
-                            <div class="flex gap-1">
-                                <span class="text-gray-300 font-bold text-lg">+</span>
-                                <span class="text-gray-300 font-bold text-lg">+</span>
-                                <span class="text-primary font-bold text-lg">+</span>
-                            </div>
-                        </div>
-                        <h3 class="text-[28px] lg:text-[32px] font-bold text-primary mb-4">Уходовые процедуры</h3>
-                        <p class="text-[16px] text-secondary leading-[1.6] mb-8">
-                            Комплексный подход к красоте и здоровью кожи. Увлажнение, омоложение, восстановление после пилинга и глубокое очищение
-                        </p>
-                        <button class="group inline-flex items-center text-[15px] font-medium text-primary border-b border-transparent hover:border-primary transition-all pb-0.5">
-                            <span class="mr-1 group-hover:mr-2 transition-all">+</span> Подробнее
-                        </button>
-                    </div>
-
+                    <h3 class="text-[28px] lg:text-[32px] font-bold text-primary mb-4 tracking-tighter">Пилинги</h3>
+                    <p class="text-[16px] text-secondary leading-[1.6] mb-8 tracking-tight">
+                        Миндальный пилинг отличается от скраба — он действует внутри эпидермиса, глубоко очищает и стимулирует обмен веществ, запускает выработку коллагена
+                    </p>
+                    <button class="group inline-flex items-center text-[15px] font-medium text-primary border-b border-transparent hover:border-primary transition-all pb-0.5 tracking-tight">
+                        <span class="mr-1 group-hover:mr-2 transition-all">+</span> Подробнее
+                    </button>
                 </div>
+
+                <!-- Card 3 -->
+                <!-- ИСПРАВЛЕНО: Padding уменьшен -->
+                <div class="scroll-animate w-full max-w-[500px] bg-white rounded-[24px] p-6 lg:p-8 border border-[#E5E5E5] shadow-none transition-shadow duration-300">
+                    <div class="flex justify-between items-start mb-8">
+                        <div class="w-12 h-12 bg-[#FAF8F5] rounded-full flex items-center justify-center text-primary">
+                            <i data-lucide="flower-2" class="w-6 h-6"></i>
+                        </div>
+                        <div class="flex gap-1">
+                            <span class="text-gray-300 font-bold text-lg">+</span>
+                            <span class="text-gray-300 font-bold text-lg">+</span>
+                            <span class="text-primary font-bold text-lg">+</span>
+                        </div>
+                    </div>
+                    <h3 class="text-[28px] lg:text-[32px] font-bold text-primary mb-4 tracking-tighter">Уходовые процедуры</h3>
+                    <p class="text-[16px] text-secondary leading-[1.6] mb-8 tracking-tight">
+                        Комплексный подход к красоте и здоровью кожи. Увлажнение, омоложение, восстановление после пилинга и глубокое очищение
+                    </p>
+                    <button class="group inline-flex items-center text-[15px] font-medium text-primary border-b border-transparent hover:border-primary transition-all pb-0.5 tracking-tight">
+                        <span class="mr-1 group-hover:mr-2 transition-all">+</span> Подробнее
+                    </button>
+                </div>
+
             </div>
         </div>
     </section>
 
     <!-- MODAL POP-UP -->
     <div id="modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6">
-        <!-- Overlay -->
         <div id="modal-overlay" class="absolute inset-0 bg-black/60 backdrop-blur-sm opacity-0" onclick="closeModal()"></div>
-        
-        <!-- Content Container -->
         <div id="modal-content" class="relative w-full max-w-[900px] bg-white rounded-[24px] shadow-2xl max-h-[90vh] overflow-y-auto opacity-0 scale-95">
-            
-            <!-- Close Button -->
             <button onclick="closeModal()" class="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-100 transition-colors z-10">
                 <i data-lucide="x" class="w-6 h-6 text-primary"></i>
             </button>
-
-            <!-- Modal Body -->
             <div class="p-8 md:p-12 lg:p-16">
                 <div class="mb-10">
-                    <h2 class="text-[32px] md:text-[40px] font-bold text-primary mb-6">Массаж лица</h2>
-                    <p class="text-[16px] text-secondary leading-[1.6] max-w-2xl mb-8">
+                    <h2 class="text-[32px] md:text-[40px] font-bold text-primary mb-6 tracking-tighter">Массаж лица</h2>
+                    <p class="text-[16px] text-secondary leading-[1.6] max-w-2xl mb-8 tracking-tight">
                         Уникальная методика, сочетающая в себе глубокую проработку мышц и релаксацию. Мы подбираем технику индивидуально под состояние вашей кожи.
                     </p>
-                    
                     <div class="bg-[#FAF8F5] rounded-xl p-6">
-                        <h4 class="font-semibold text-primary mb-4">Результаты процедур:</h4>
-                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-[15px] text-secondary">
+                        <h4 class="font-semibold text-primary mb-4 tracking-tight">Результаты процедур:</h4>
+                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-3 text-[15px] text-secondary tracking-tight">
                             <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent rounded-full"></span>Кожа насыщается кислородом</li>
                             <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent rounded-full"></span>Усиливается выработка коллагена</li>
                             <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent rounded-full"></span>Пропадают мелкие морщинки</li>
@@ -412,50 +400,41 @@
                         </ul>
                     </div>
                 </div>
-
-                <h3 class="text-[20px] font-bold text-primary mb-6">Виды массажа:</h3>
-                
+                <h3 class="text-[20px] font-bold text-primary mb-6 tracking-tighter">Виды массажа:</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Price Card 1 -->
                     <div class="bg-[#F7F4F0] border border-[#E5E5E5] rounded-[12px] p-6 flex flex-col justify-between h-full">
                         <div>
-                            <h4 class="font-semibold text-[18px] text-primary mb-2">Классический массаж лица</h4>
-                            <span class="block text-[24px] font-bold text-primary mb-4">2 900₽</span>
+                            <h4 class="font-semibold text-[18px] text-primary mb-2 tracking-tight">Классический массаж лица</h4>
+                            <span class="block text-[24px] font-bold text-primary mb-4 tracking-tighter">2 900₽</span>
                         </div>
-                        <button class="w-full bg-[#D4C4B0] hover:bg-[#C9B89A] text-primary font-medium py-3 rounded-[8px] transition-colors">
+                        <button class="w-full bg-[#D4C4B0] hover:bg-[#C9B89A] text-primary font-medium py-3 rounded-[8px] transition-colors tracking-tight">
                             Записаться
                         </button>
                     </div>
-
-                    <!-- Price Card 2 -->
                     <div class="bg-[#F7F4F0] border border-[#E5E5E5] rounded-[12px] p-6 flex flex-col justify-between h-full">
                         <div>
-                            <h4 class="font-semibold text-[18px] text-primary mb-2">Лимфодренажный массаж</h4>
-                            <span class="block text-[24px] font-bold text-primary mb-4">3 500₽</span>
+                            <h4 class="font-semibold text-[18px] text-primary mb-2 tracking-tight">Лимфодренажный массаж</h4>
+                            <span class="block text-[24px] font-bold text-primary mb-4 tracking-tighter">3 500₽</span>
                         </div>
-                        <button class="w-full bg-[#D4C4B0] hover:bg-[#C9B89A] text-primary font-medium py-3 rounded-[8px] transition-colors">
+                        <button class="w-full bg-[#D4C4B0] hover:bg-[#C9B89A] text-primary font-medium py-3 rounded-[8px] transition-colors tracking-tight">
                             Записаться
                         </button>
                     </div>
-
-                    <!-- Price Card 3 -->
                     <div class="bg-[#F7F4F0] border border-[#E5E5E5] rounded-[12px] p-6 flex flex-col justify-between h-full">
                         <div>
-                            <h4 class="font-semibold text-[18px] text-primary mb-2">Антивозрастной массаж</h4>
-                            <span class="block text-[24px] font-bold text-primary mb-4">3 500₽</span>
+                            <h4 class="font-semibold text-[18px] text-primary mb-2 tracking-tight">Антивозрастной массаж</h4>
+                            <span class="block text-[24px] font-bold text-primary mb-4 tracking-tighter">3 500₽</span>
                         </div>
-                        <button class="w-full bg-[#D4C4B0] hover:bg-[#C9B89A] text-primary font-medium py-3 rounded-[8px] transition-colors">
+                        <button class="w-full bg-[#D4C4B0] hover:bg-[#C9B89A] text-primary font-medium py-3 rounded-[8px] transition-colors tracking-tight">
                             Записаться
                         </button>
                     </div>
-
-                    <!-- Price Card 4 -->
                     <div class="bg-[#F7F4F0] border border-[#E5E5E5] rounded-[12px] p-6 flex flex-col justify-between h-full">
                         <div>
-                            <h4 class="font-semibold text-[18px] text-primary mb-2">Массаж + Аппаратные технологии</h4>
-                            <span class="block text-[24px] font-bold text-primary mb-4">3 500₽</span>
+                            <h4 class="font-semibold text-[18px] text-primary mb-2 tracking-tight">Массаж + Аппаратные технологии</h4>
+                            <span class="block text-[24px] font-bold text-primary mb-4 tracking-tighter">3 500₽</span>
                         </div>
-                        <button class="w-full bg-[#D4C4B0] hover:bg-[#C9B89A] text-primary font-medium py-3 rounded-[8px] transition-colors">
+                        <button class="w-full bg-[#D4C4B0] hover:bg-[#C9B89A] text-primary font-medium py-3 rounded-[8px] transition-colors tracking-tight">
                             Записаться
                         </button>
                     </div>
@@ -486,11 +465,11 @@
             }
         }
 
-        // --- Scroll Animation Logic ---
+        // --- Intersection Observer for Cards ---
         const observerOptions = {
             root: null,
             rootMargin: '0px',
-            threshold: 0.2 // Карточка активируется, когда 20% ее видно
+            threshold: 0.2
         };
 
         const observer = new IntersectionObserver((entries, observer) => {
@@ -505,6 +484,45 @@
             observer.observe(card);
         });
 
+        // --- SPLIT ANIMATION LOGIC (FIXED PIXEL OFFSET) ---
+        window.addEventListener('scroll', () => {
+            const section = document.getElementById('services');
+            if (!section) return;
+
+            const leftTitle = document.getElementById('left-title');
+            const rightTitle = document.getElementById('right-title');
+            
+            if (!leftTitle || !rightTitle) return;
+
+            const rect = section.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            const animationLength = windowHeight * 0.8;
+            
+            // Вычисляем, насколько проскроллили внутрь секции
+            const scrolledIntoSection = -rect.top;
+            
+            let progress = 0;
+            
+            if (scrolledIntoSection < 0) {
+                progress = 0;
+            } else {
+                progress = Math.min(scrolledIntoSection / animationLength, 1);
+            }
+            
+            // ИСПРАВЛЕНО: Дистанция сдвига уменьшена до 290px
+            // Это "держит" текст ближе к карточкам (ширина половины карточки ~250px + отступ 40px)
+            const maxTranslatePx = 290;
+            const currentTranslate = maxTranslatePx * progress;
+            
+            // Left moves Left (-X)
+            leftTitle.style.transform = `translateX(-${currentTranslate}px)`;
+            
+            // Right moves Right (+X)
+            rightTitle.style.transform = `translateX(${currentTranslate}px)`;
+        });
+
+
         // --- Modal Logic ---
         const modal = document.getElementById('modal');
         const overlay = document.getElementById('modal-overlay');
@@ -512,12 +530,10 @@
         const body = document.body;
 
         function openModal(serviceType) {
-            // В реальном проекте здесь можно менять контент в зависимости от serviceType
             modal.classList.remove('hidden');
             modal.classList.add('flex');
-            body.classList.add('modal-open'); // Блокируем скролл фона
+            body.classList.add('modal-open'); 
             
-            // Небольшая задержка для анимации
             setTimeout(() => {
                 overlay.classList.remove('opacity-0');
                 modalContent.classList.remove('opacity-0', 'scale-95');
@@ -534,10 +550,9 @@
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
                 body.classList.remove('modal-open');
-            }, 300); // Ждем окончания анимации (300ms)
+            }, 300);
         }
 
-        // Закрытие по ESC
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
                 closeModal();
