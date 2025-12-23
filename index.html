@@ -92,7 +92,6 @@
         #modal-content { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease; }
         body.modal-open { overflow: hidden; }
 
-        /* SNOWFALL ANIMATION - FIXED */
         .snowflake {
             position: absolute;
             top: -20px;
@@ -105,7 +104,7 @@
         @keyframes fall {
             0% { transform: translateY(0) translateX(0); opacity: 0; }
             10% { opacity: 1; }
-            100% { transform: translateY(800px) translateX(20px); opacity: 0; } /* Увеличил дистанцию падения до 800px */
+            100% { transform: translateY(800px) translateX(20px); opacity: 0; }
         }
 
         .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
@@ -281,27 +280,66 @@
                 </div>
             </div>
         </div>
-        <div class="relative z-10 max-w-[1840px] mx-auto px-layout-px pb-16 lg:-mt-[100vh]">
+        
+        <!-- Контент (Карточки) - Уменьшен отступ снизу pb-10 -->
+        <div class="relative z-10 max-w-[1840px] mx-auto px-layout-px pb-10 lg:-mt-[100vh]">
             <div class="flex flex-col items-center gap-6 lg:pt-[100vh]">
                 <div class="lg:hidden w-full mb-10 text-center pt-20">
                     <span class="text-[12px] font-bold tracking-[0.2em] text-tertiary uppercase mb-3 block">Услуги</span>
                     <h2 class="text-[28px] leading-[1.1] text-primary font-medium tracking-tight">Выберите уход в своём ритме</h2>
                 </div>
+                
+                <!-- Card 1 -->
                 <div class="scroll-animate w-full max-w-[500px] bg-white rounded-[24px] p-8 border border-gray-100 shadow-none hover:border-gray-200 transition-colors duration-300">
-                    <div class="flex justify-between items-start mb-6"><div class="w-12 h-12 bg-background rounded-full flex items-center justify-center text-primary"><span class="material-symbols-rounded">spa</span></div><div class="flex gap-1.5 opacity-30 text-primary"><span class="material-symbols-rounded">add</span><span class="material-symbols-rounded">add</span><span class="material-symbols-rounded">add</span></div></div><h3 class="text-[26px] font-bold text-primary mb-3 tracking-tighter">Массаж лица</h3><p class="text-[16px] text-secondary leading-[1.6] mb-6 tracking-tight">Залог <span class="text-primary font-medium">упругой, здоровой кожи</span>.</p><div class="mb-8 border-t border-gray-100 pt-6"><ul class="space-y-3"><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Классический массаж</span><span class="font-semibold text-primary">2 900₽</span></li><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Лимфодренажный</span><span class="font-semibold text-primary">3 500₽</span></li></ul></div><button onclick="openModal('massage')" class="w-full py-3 rounded-lg border border-primary/10 hover:bg-primary hover:text-white transition-all text-[14px] font-medium tracking-tight text-primary">Подробнее</button>
+                    <div class="flex justify-between items-start mb-6"><div class="w-12 h-12 bg-background rounded-full flex items-center justify-center text-primary"><span class="material-symbols-rounded">spa</span></div><div class="flex gap-1.5 opacity-30 text-primary"><span class="material-symbols-rounded">add</span><span class="material-symbols-rounded">add</span><span class="material-symbols-rounded">add</span></div></div><h3 class="text-[26px] font-bold text-primary mb-3 tracking-tighter">Массаж лица</h3><p class="text-[16px] text-secondary leading-[1.6] mb-6 tracking-tight">Залог <span class="text-primary font-medium">упругой, здоровой кожи</span>.</p>
+                    <div class="mb-8 border-t border-gray-100 pt-6">
+                        <ul class="space-y-3">
+                            <li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Классический массаж</span><span class="font-semibold text-primary">2 900₽</span></li>
+                            <li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Лимфодренажный</span><span class="font-semibold text-primary">3 500₽</span></li>
+                            <li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Антивозрастной</span><span class="font-semibold text-primary">3 500₽</span></li>
+                            <li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Скульптурирующий</span><span class="font-semibold text-primary">4 000₽</span></li>
+                            <li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Буккальный массаж</span><span class="font-semibold text-primary">4 500₽</span></li>
+                        </ul>
+                    </div>
+                    <button onclick="openModal('massage')" class="w-full py-3 rounded-lg border border-primary/10 hover:bg-primary hover:text-white transition-all text-[14px] font-medium tracking-tight text-primary">Подробнее</button>
                 </div>
+
+                <!-- Card 2 -->
                 <div class="scroll-animate w-full max-w-[500px] bg-white rounded-[24px] p-8 border border-gray-100 shadow-none hover:border-gray-200 transition-colors duration-300">
-                    <div class="flex justify-between items-start mb-6"><div class="w-12 h-12 bg-background rounded-full flex items-center justify-center text-primary"><span class="material-symbols-rounded">water_drop</span></div><div class="flex gap-1.5 opacity-30 text-primary"><span class="material-symbols-rounded">add</span><span class="material-symbols-rounded">add</span><span class="material-symbols-rounded">add</span></div></div><h3 class="text-[26px] font-bold text-primary mb-3 tracking-tighter">Пилинги</h3><p class="text-[16px] text-secondary leading-[1.6] mb-6 tracking-tight">Действуют <span class="text-primary font-medium">внутри эпидермиса</span>.</p><div class="mb-8 border-t border-gray-100 pt-6"><ul class="space-y-3"><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Миндальный пилинг</span><span class="font-semibold text-primary">3 000₽</span></li><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Салициловый</span><span class="font-semibold text-primary">3 000₽</span></li></ul></div><button onclick="openModal('peeling')" class="w-full py-3 rounded-lg border border-primary/10 hover:bg-primary hover:text-white transition-all text-[14px] font-medium tracking-tight text-primary">Подробнее</button>
+                    <div class="flex justify-between items-start mb-6"><div class="w-12 h-12 bg-background rounded-full flex items-center justify-center text-primary"><span class="material-symbols-rounded">water_drop</span></div><div class="flex gap-1.5 opacity-30 text-primary"><span class="material-symbols-rounded">add</span><span class="material-symbols-rounded">add</span><span class="material-symbols-rounded">add</span></div></div><h3 class="text-[26px] font-bold text-primary mb-3 tracking-tighter">Пилинги</h3><p class="text-[16px] text-secondary leading-[1.6] mb-6 tracking-tight">Действуют <span class="text-primary font-medium">внутри эпидермиса</span>.</p>
+                    <div class="mb-8 border-t border-gray-100 pt-6">
+                        <ul class="space-y-3">
+                            <li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Миндальный пилинг</span><span class="font-semibold text-primary">3 000₽</span></li>
+                            <li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Салициловый</span><span class="font-semibold text-primary">3 000₽</span></li>
+                            <li class="flex justify-between items-center text-[15px]"><span class="text-secondary">PRX-T33 терапия</span><span class="font-semibold text-primary">5 000₽</span></li>
+                            <li class="flex justify-between items-center text-[15px]"><span class="text-secondary">BioRePeelCl3</span><span class="font-semibold text-primary">5 500₽</span></li>
+                            <li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Peach Peel</span><span class="font-semibold text-primary">4 500₽</span></li>
+                        </ul>
+                    </div>
+                    <button onclick="openModal('peeling')" class="w-full py-3 rounded-lg border border-primary/10 hover:bg-primary hover:text-white transition-all text-[14px] font-medium tracking-tight text-primary">Подробнее</button>
                 </div>
+
+                <!-- Card 3 -->
                 <div class="scroll-animate w-full max-w-[500px] bg-white rounded-[24px] p-8 border border-gray-100 shadow-none hover:border-gray-200 transition-colors duration-300">
-                    <div class="flex justify-between items-start mb-6"><div class="w-12 h-12 bg-background rounded-full flex items-center justify-center text-primary"><span class="material-symbols-rounded">local_florist</span></div><div class="flex gap-1.5 opacity-30 text-primary"><span class="material-symbols-rounded">add</span><span class="material-symbols-rounded">add</span><span class="material-symbols-rounded">add</span></div></div><h3 class="text-[26px] font-bold text-primary mb-3 tracking-tighter">Уходовые процедуры</h3><p class="text-[16px] text-secondary leading-[1.6] mb-6 tracking-tight">Комплексный подход. <span class="text-primary font-medium">Увлажнение и омоложение</span>.</p><div class="mb-8 border-t border-gray-100 pt-6"><ul class="space-y-3"><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Глубокое увлажнение</span><span class="font-semibold text-primary">3 500₽</span></li><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Чистка лица</span><span class="font-semibold text-primary">3 000₽</span></li></ul></div><button onclick="openModal('care')" class="w-full py-3 rounded-lg border border-primary/10 hover:bg-primary hover:text-white transition-all text-[14px] font-medium tracking-tight text-primary">Подробнее</button>
+                    <div class="flex justify-between items-start mb-6"><div class="w-12 h-12 bg-background rounded-full flex items-center justify-center text-primary"><span class="material-symbols-rounded">local_florist</span></div><div class="flex gap-1.5 opacity-30 text-primary"><span class="material-symbols-rounded">add</span><span class="material-symbols-rounded">add</span><span class="material-symbols-rounded">add</span></div></div><h3 class="text-[26px] font-bold text-primary mb-3 tracking-tighter">Уходовые процедуры</h3><p class="text-[16px] text-secondary leading-[1.6] mb-6 tracking-tight">Комплексный подход. <span class="text-primary font-medium">Увлажнение и омоложение</span>.</p>
+                    <div class="mb-8 border-t border-gray-100 pt-6">
+                        <ul class="space-y-3">
+                            <li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Глубокое увлажнение</span><span class="font-semibold text-primary">3 500₽</span></li>
+                            <li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Чистка лица</span><span class="font-semibold text-primary">3 000₽</span></li>
+                            <li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Экспресс-уход</span><span class="font-semibold text-primary">2 500₽</span></li>
+                            <li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Карбокситерапия</span><span class="font-semibold text-primary">4 000₽</span></li>
+                            <li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Микротоковая терапия</span><span class="font-semibold text-primary">3 500₽</span></li>
+                        </ul>
+                    </div>
+                    <button onclick="openModal('care')" class="w-full py-3 rounded-lg border border-primary/10 hover:bg-primary hover:text-white transition-all text-[14px] font-medium tracking-tight text-primary">Подробнее</button>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- БЛОК 4: АКЦИЯ -->
-    <section class="relative bg-background py-16 z-10">
+    <!-- Уменьшен отступ сверху py-12 -->
+    <section class="relative bg-background py-12 z-10">
         <div class="max-w-[1840px] mx-auto px-layout-px">
             <div class="relative w-full rounded-[32px] overflow-hidden bg-gradient-to-br from-[#5C0B0B] via-[#781919] to-[#450505] shadow-2xl shadow-red-900/20">
                 <div id="snow-container" class="absolute inset-0 pointer-events-none z-0"></div>
@@ -461,33 +499,11 @@
         function initBlurText() { const elements = document.querySelectorAll('.blur-text'); const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { const spans = entry.target.querySelectorAll('.blur-word'); spans.forEach((span, index) => { setTimeout(() => { span.classList.add('active'); }, index * 120); }); observer.unobserve(entry.target); } }); }, { threshold: 0.2 }); elements.forEach(el => { const nodes = Array.from(el.childNodes); el.innerHTML = ''; nodes.forEach(node => { if (node.nodeType === 3) { const words = node.textContent.trim().split(/\s+/); words.forEach((word) => { if(word) { const span = document.createElement('span'); span.innerText = word + ' '; span.classList.add('blur-word'); el.appendChild(span); } }); } else { el.appendChild(node.cloneNode(true)); } }); observer.observe(el); }); }
         document.addEventListener('DOMContentLoaded', initBlurText);
         const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 }; const observer = new IntersectionObserver((entries, observer) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); } }); }, observerOptions); document.querySelectorAll('.scroll-animate').forEach(card => { observer.observe(card); });
-        window.addEventListener('scroll', () => { const watermarkText = document.querySelector('.watermark-text'); if (watermarkText) { const scroll = window.scrollY; let opacity = 0.5 - scroll / 500; if (opacity < 0) opacity = 0; watermarkText.style.opacity = opacity; let spacing = -0.02 + (scroll / 3000); watermarkText.style.letterSpacing = spacing + 'em'; } });
         window.addEventListener('scroll', () => { const section = document.getElementById('services'); if (!section) return; const leftTitle = document.getElementById('left-title'); const rightTitle = document.getElementById('right-title'); if (!leftTitle || !rightTitle) return; const rect = section.getBoundingClientRect(); const windowHeight = window.innerHeight; const animationLength = windowHeight * 0.5; const scrolledIntoSection = -rect.top + 50; let progress = 0; if (scrolledIntoSection < 0) { progress = 0; } else { progress = Math.min(scrolledIntoSection / animationLength, 1); } const maxTranslatePx = 260; const currentTranslate = maxTranslatePx * progress; leftTitle.style.transform = `translateX(-${currentTranslate}px)`; rightTitle.style.transform = `translateX(${currentTranslate}px)`; });
         const modal = document.getElementById('modal'); const overlay = document.getElementById('modal-overlay'); const modalContent = document.getElementById('modal-content'); const body = document.body; function openModal(serviceType) { const data = modalData[serviceType]; if (!data) return; modalBody.innerHTML = `<h2 class="text-[28px] font-bold text-primary mb-6 tracking-tighter">${data.title}</h2><div class="bg-background rounded-2xl p-6 mb-6"><p class="text-[16px] text-secondary leading-[1.6] mb-4 tracking-tight">${data.description}</p><p class="text-[15px] font-medium text-primary tracking-tight">${data.highlight}</p></div><button onclick="closeModal()" class="w-full bg-accent hover:bg-accent-hover text-primary font-medium py-3.5 rounded-xl transition-colors tracking-tight">Понятно, спасибо</button>`; modal.classList.remove('hidden'); modal.classList.add('flex'); body.classList.add('modal-open'); setTimeout(() => { overlay.classList.remove('opacity-0'); modalContent.classList.remove('opacity-0', 'scale-95'); modalContent.classList.add('opacity-100', 'scale-100'); }, 10); } function closeModal() { overlay.classList.add('opacity-0'); modalContent.classList.remove('opacity-100', 'scale-100'); modalContent.classList.add('opacity-0', 'scale-95'); setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); body.classList.remove('modal-open'); }, 300); } document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) { closeModal(); } });
         
         // Snow (Inside container)
-        function createSnowflakes() { 
-            const container = document.getElementById('snow-container'); 
-            if (!container) return; // Safety check
-            const flakeCount = 60; 
-            container.innerHTML = '';
-            for (let i = 0; i < flakeCount; i++) { 
-                const flake = document.createElement('div'); 
-                flake.classList.add('snowflake'); 
-                const size = Math.random() * 3 + 2 + 'px'; 
-                flake.style.width = size; 
-                flake.style.height = size; 
-                flake.style.left = Math.random() * 100 + '%'; 
-                flake.style.animationDuration = Math.random() * 3 + 5 + 's'; 
-                
-                // NEGATIVE DELAY to make snow appear instantly
-                flake.style.animationDelay = -Math.random() * 8 + 's'; 
-                
-                flake.style.opacity = Math.random() * 0.7 + 0.3;
-                container.appendChild(flake); 
-            } 
-        } 
-        createSnowflakes();
+        function createSnowflakes() { const container = document.getElementById('snow-container'); const flakeCount = 40; for (let i = 0; i < flakeCount; i++) { const flake = document.createElement('div'); flake.classList.add('snowflake'); const size = Math.random() * 3 + 2 + 'px'; flake.style.width = size; flake.style.height = size; flake.style.left = Math.random() * 100 + '%'; flake.style.animationDuration = Math.random() * 3 + 5 + 's'; flake.style.animationDelay = Math.random() * 5 + 's'; container.appendChild(flake); } } createSnowflakes();
     </script>
 </body>
 </html>
