@@ -1,281 +1,30 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ONA™ - Студия массажа лица</title>
-    
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,300,0,0" />
+/* external css: flickity.css */
 
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        background: '#F2EFE9',     
-                        primary: '#1A1A1A',        
-                        secondary: '#555555',      
-                        tertiary: '#999999',       
-                        accent: '#D4C4B0',         
-                        'accent-hover': '#C4B29E', 
-                        watermark: '#E6DCCA',
-                        'dark-section': '#1C1A19', 
-                        'dark-card': '#262422',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    fontSize: {
-                        'watermark': 'clamp(150px, 25vw, 450px)',
-                    },
-                    letterSpacing: {
-                        'tight': '-0.01em',       
-                        'tighter': '-0.025em',    
-                    },
-                    spacing: {
-                        'layout-px': 'clamp(20px, 4vw, 60px)',
-                    }
-                }
-            }
-        }
-    </script>
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
 
-    <style>
-        html { scroll-behavior: smooth; }
-        ::selection { background-color: #D4C4B0; color: #111111; }
+body { font-family: sans-serif; }
 
-        .material-symbols-rounded {
-            font-family: 'Material Symbols Rounded';
-            font-weight: normal;
-            font-style: normal;
-            font-size: 24px;
-            line-height: 1;
-            letter-spacing: normal;
-            text-transform: none;
-            display: inline-block;
-            white-space: nowrap;
-            word-wrap: normal;
-            direction: ltr;
-            -webkit-font-smoothing: antialiased;
-        }
+.gallery {
+  background: #EEE;
+}
 
-        .avatar-stack:hover > * { transform: translateX(4px); }
-        .avatar-stack > * { transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); border: 3px solid #F2EFE9; }
+.gallery-cell {
+  width: 66%;
+  height: 200px;
+  margin-right: 10px;
+  background: #8C8;
+  counter-increment: gallery-cell;
+}
 
-        .accordion-content { transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease; max-height: 0; opacity: 0; overflow: hidden; }
-        .accordion-content.open { opacity: 1; }
-        
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        .scroll-animate { opacity: 0; transform: translateY(60px) scale(0.98); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-        .scroll-animate.active { opacity: 1; transform: translateY(0) scale(1); }
-
-        .blur-word { display: inline-block; opacity: 0; filter: blur(12px); transform: translateY(15px); transition: opacity 1s ease, filter 1s ease, transform 1s ease; will-change: opacity, filter, transform; margin-right: 0.25em; }
-        .blur-word.active { opacity: 1; filter: blur(0); transform: translateY(0); }
-
-        .fade-in-up { opacity: 0; transform: translateY(20px); animation: fadeInUp 0.8s ease-out forwards; }
-        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-        .delay-300 { animation-delay: 300ms; }
-        .delay-500 { animation-delay: 500ms; }
-        .delay-700 { animation-delay: 700ms; }
-
-        #modal-overlay { transition: opacity 0.4s ease; }
-        #modal-content { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease; }
-        body.modal-open { overflow: hidden; }
-
-        /* SNOWFALL ANIMATION */
-        .snowflake {
-            position: absolute;
-            top: -20px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 50%;
-            pointer-events: none;
-            animation: fall linear infinite;
-            z-index: 1;
-        }
-        @keyframes fall {
-            0% { transform: translateY(0) translateX(0); opacity: 0; }
-            10% { opacity: 1; }
-            100% { transform: translateY(800px) translateX(20px); opacity: 0; }
-        }
-
-        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3); }
-    </style>
-</head>
-<body class="bg-background text-primary font-sans antialiased overflow-x-hidden relative min-h-screen flex flex-col tracking-tight selection:bg-accent selection:text-primary">
-
-    <!-- Header -->
-    <header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-transparent transition-all duration-300 py-4">
-        <div class="max-w-[1840px] mx-auto w-full px-layout-px flex items-center justify-between">
-            <a href="#" class="text-2xl font-bold tracking-tighter z-50 relative group text-primary">
-                ONA™
-            </a>
-
-            <!-- Navigation Links (Optional: Hidden since sections are removed, or kept for future use) -->
-            <nav class="hidden md:flex items-center gap-10 text-[14px] font-medium text-secondary tracking-tight">
-                <!-- Links removed/hidden since target sections are gone -->
-                <!-- <a href="#about" class="hover:text-primary transition-colors duration-300">О нас</a> -->
-                <!-- <a href="#services" class="hover:text-primary transition-colors duration-300">Услуги</a> -->
-                <!-- <a href="#contacts" class="hover:text-primary transition-colors duration-300">Контакты</a> -->
-            </nav>
-
-            <div class="flex items-center gap-4">
-                <a href="#booking" class="hidden sm:inline-flex bg-[#1A1A1A] hover:bg-black text-white px-6 py-3 rounded-xl text-[14px] font-medium transition-all duration-300 tracking-tight shadow-lg shadow-black/5 hover:shadow-black/10 transform hover:-translate-y-0.5">
-                    Записаться
-                </a>
-                <button class="md:hidden p-2 text-primary">
-                    <span class="material-symbols-rounded text-3xl">menu</span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- БЛОК 1: HERO (ОСТАВЛЕН) -->
-    <main class="relative z-10 w-full max-w-[1840px] mx-auto px-layout-px pt-24 lg:pt-20 pb-0 min-h-screen flex flex-col justify-center">
-        
-        <!-- Grid Content -->
-        <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end relative z-10">
-            
-            <div class="lg:col-span-5 flex flex-col items-start text-left relative z-10 pb-12 lg:pb-16">
-                
-                <h1 class="blur-text font-bold text-primary tracking-tighter text-[48px] lg:text-[68px] leading-[1.05] mb-6">
-                    Ваша самая здоровая<br>
-                    кожа раскрыта
-                </h1>
-
-                <!-- Social Proof -->
-                <div class="flex flex-wrap items-center gap-4 mb-8 fade-in-up delay-300 opacity-0">
-                    <div class="flex -space-x-3 avatar-stack">
-                        <div class="w-10 h-10 rounded-full border-[3px] border-background bg-gray-200 overflow-hidden"><img src="https://i.pravatar.cc/100?img=1" class="w-full h-full object-cover"></div>
-                        <div class="w-10 h-10 rounded-full border-[3px] border-background bg-gray-200 overflow-hidden"><img src="https://i.pravatar.cc/100?img=5" class="w-full h-full object-cover"></div>
-                        <div class="w-10 h-10 rounded-full border-[3px] border-background bg-gray-200 overflow-hidden"><img src="https://i.pravatar.cc/100?img=9" class="w-full h-full object-cover"></div>
-                        <div class="w-10 h-10 rounded-full border-[3px] border-background bg-gray-200 overflow-hidden"><img src="https://i.pravatar.cc/100?img=32" class="w-full h-full object-cover"></div>
-                        <div class="w-10 h-10 rounded-full border-[3px] border-background bg-primary text-white flex items-center justify-center font-medium text-xs">2k+</div>
-                    </div>
-                    <div class="flex flex-col gap-0.5">
-                        <div class="flex gap-0.5 text-primary">
-                            <span class="material-symbols-rounded text-base text-primary fill-current">star</span>
-                            <span class="material-symbols-rounded text-base text-primary fill-current">star</span>
-                            <span class="material-symbols-rounded text-base text-primary fill-current">star</span>
-                            <span class="material-symbols-rounded text-base text-primary fill-current">star</span>
-                            <span class="material-symbols-rounded text-base text-primary fill-current">star</span>
-                        </div>
-                        <span class="text-xs font-medium text-secondary tracking-wide uppercase mt-1">2500+ Клиентов</span>
-                    </div>
-                </div>
-
-                <p class="text-[16px] lg:text-[17px] text-secondary font-normal leading-[1.6] max-w-[400px] tracking-tight mb-8 fade-in-up delay-500 opacity-0">
-                    <span class="text-primary font-medium">Мягко обновляем кожу</span>, снимаем стресс, <span class="text-primary font-medium">возвращаем сияние</span>. Ваш личный ритуал красоты в центре города.
-                </p>
-
-                <div class="flex flex-col items-start w-full fade-in-up delay-700 opacity-0">
-                    <button class="group relative w-auto cursor-pointer overflow-hidden rounded-full border border-primary/10 bg-white p-3 px-8 text-center font-semibold shadow-lg shadow-black/5">
-                        <span class="inline-block transition-all duration-300 group-hover:translate-x-12 group-hover:opacity-0 text-primary">
-                            Записаться на консультацию
-                        </span>
-                        <div class="absolute top-0 left-0 z-10 flex h-full w-full translate-x-12 items-center justify-center gap-2 text-white opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
-                            <span>Записаться</span>
-                            <span class="material-symbols-rounded text-lg">arrow_forward</span>
-                        </div>
-                        <div class="absolute left-[20%] top-[40%] h-2 w-2 scale-0 opacity-0 rounded-lg bg-primary transition-all duration-500 group-hover:opacity-100 group-hover:left-[0%] group-hover:top-[0%] group-hover:h-full group-hover:w-full group-hover:scale-[1.8] group-hover:rounded-none"></div>
-                    </button>
-                    <span class="mt-4 text-[13px] text-tertiary tracking-tight pl-2">
-                        Бесплатная консультация (15 мин) перед процедурой
-                    </span>
-                </div>
-            </div>
-
-            <!-- Right Column: Image -->
-            <div class="hidden lg:block lg:col-span-7 relative w-full fade-in-up delay-500 opacity-0">
-                 <div class="relative w-full">
-                     <img src="https://res.cloudinary.com/dt79npeea/image/upload/v1766514540/2622_dlx8qw.png" 
-                          alt="Face Massage" 
-                          class="w-full h-auto max-h-[85vh] object-contain object-center drop-shadow-none">
-                     
-                     <div class="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none"></div>
-                 </div>
-            </div>
-
-            <!-- Mobile Image -->
-             <div class="lg:hidden w-full relative h-[400px] fade-in-up delay-500 opacity-0 order-last">
-                 <img src="https://res.cloudinary.com/dt79npeea/image/upload/v1766514540/2622_dlx8qw.png" 
-                      alt="Face Massage" 
-                      class="w-full h-full object-contain object-bottom drop-shadow-none">
-                 <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-background to-transparent pointer-events-none"></div>
-            </div>
-
-        </div>
-    </main>
-
-    <!-- БЛОК 2: ПОЧЕМУ ONA FACE? (УДАЛЕН) -->
-    <!-- <section id="about" class="bg-background py-10 lg:py-16 relative z-10 w-full border-t border-gray-100/50">...</section> -->
-
-    <!-- БЛОК 3: УСЛУГИ (УДАЛЕН) -->
-    <!-- <section id="services" class="relative bg-background min-h-[250vh] w-full">...</section> -->
-
-    <!-- БЛОК 4: АКЦИЯ (ОСТАВЛЕН) -->
-    <section class="relative bg-background py-12 z-10">
-        <div class="max-w-[1840px] mx-auto px-layout-px">
-            <div class="relative w-full rounded-[32px] overflow-hidden bg-gradient-to-br from-[#5C0B0B] via-[#781919] to-[#450505] shadow-2xl shadow-red-900/20">
-                <div id="snow-container" class="absolute inset-0 pointer-events-none z-0"></div>
-                <div class="relative z-10 flex flex-col items-start justify-center py-16 px-8 md:px-16 text-left">
-                    <span class="text-sm font-bold tracking-widest text-white/80 uppercase mb-4">Специальное предложение</span>
-                    <h2 class="blur-text text-[36px] lg:text-[56px] font-bold text-white mb-6 leading-[1.1] tracking-tighter">
-                        -30% для новых клиентов<br>на любую процедуру
-                    </h2>
-                    <p class="text-lg text-white/90 max-w-xl mb-10 leading-relaxed font-light tracking-tight">
-                        Только в декабре дарим скидку на знакомство с мастером. Попробуйте любую процедуру — от ухода до буккального массажа.
-                    </p>
-                    <button class="group relative w-auto cursor-pointer overflow-hidden rounded-full border border-white/20 bg-white/10 backdrop-blur-sm p-3 px-8 text-center font-semibold shadow-lg">
-                        <span class="inline-block transition-all duration-300 group-hover:translate-x-12 group-hover:opacity-0 text-white">Записаться со скидкой</span>
-                        <div class="absolute top-0 left-0 z-10 flex h-full w-full translate-x-12 items-center justify-center gap-2 text-[#781919] opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
-                            <span>Записаться</span><span class="material-symbols-rounded text-lg">arrow_forward</span>
-                        </div>
-                        <div class="absolute left-[20%] top-[40%] h-2 w-2 scale-0 opacity-0 rounded-lg bg-white transition-all duration-500 group-hover:opacity-100 group-hover:left-[0%] group-hover:top-[0%] group-hover:h-full group-hover:w-full group-hover:scale-[1.8] group-hover:rounded-none"></div>
-                    </button>
-                    <p class="text-sm text-white/50 mt-8 italic tracking-wide">Мягко обновляем кожу, снимаем отечность, возвращаем сияние.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- БЛОК 5: КОНТАКТЫ (УДАЛЕН) -->
-    <!-- <section id="contacts" ...>...</section> -->
-
-    <!-- Modal (Оставлен на случай возврата функционала, скрыт) -->
-    <div id="modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6"><div id="modal-overlay" class="absolute inset-0 bg-black/60 backdrop-blur-md opacity-0" onclick="closeModal()"></div><div id="modal-content" class="relative w-full max-w-[600px] bg-white rounded-[32px] shadow-2xl max-h-[90vh] overflow-y-auto opacity-0 scale-95 p-8 md:p-10"><button onclick="closeModal()" class="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-100 transition-colors z-10"><span class="material-symbols-rounded">close</span></button><div id="modal-body" class="mb-0"></div></div></div>
-
-    <script>
-        const modalData = {
-            'massage': { title: 'Массаж лица', description: 'После процедуры ваша кожа насытится кислородом, мелкие морщинки разгладятся, а овал лица станет более подтянутым. Уйдут отеки, и лицо приобретет здоровый, сияющий вид. Эффект заметен уже после первого сеанса.', highlight: 'Результат: Лифтинг, снятие отечности, здоровый цвет лица.' },
-            'peeling': { title: 'Пилинги', description: 'Пилинги обновляют кожу на клеточном уровне, выравнивают тон и рельеф. После процедуры кожа становится гладкой, сияющей, поры сужаются, а пигментация становится менее заметной.', highlight: 'Результат: Ровный тон, сужение пор, сияние.' },
-            'care': { title: 'Уходовые процедуры', description: 'Комплексный уход глубоко увлажняет и питает кожу. Восстанавливает защитный барьер, снимает раздражение и сухость. Идеально подходит для подготовки к важному событию.', highlight: 'Результат: Глубокое увлажнение, питание, восстановление.' }
-        };
-        const modalBody = document.getElementById('modal-body');
-        // Функция toggleBenefits удалена, так как блок "О нас" удален
-        
-        function initBlurText() { const elements = document.querySelectorAll('.blur-text'); const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { const spans = entry.target.querySelectorAll('.blur-word'); spans.forEach((span, index) => { setTimeout(() => { span.classList.add('active'); }, index * 120); }); observer.unobserve(entry.target); } }); }, { threshold: 0.2 }); elements.forEach(el => { const nodes = Array.from(el.childNodes); el.innerHTML = ''; nodes.forEach(node => { if (node.nodeType === 3) { const words = node.textContent.trim().split(/\s+/); words.forEach((word) => { if(word) { const span = document.createElement('span'); span.innerText = word + ' '; span.classList.add('blur-word'); el.appendChild(span); } }); } else { el.appendChild(node.cloneNode(true)); } }); observer.observe(el); }); }
-        document.addEventListener('DOMContentLoaded', initBlurText);
-        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 }; const observer = new IntersectionObserver((entries, observer) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); } }); }, observerOptions); document.querySelectorAll('.scroll-animate').forEach(card => { observer.observe(card); });
-        window.addEventListener('scroll', () => { const watermarkText = document.querySelector('.watermark-text'); if (watermarkText) { const scroll = window.scrollY; let opacity = 0.5 - scroll / 500; if (opacity < 0) opacity = 0; watermarkText.style.opacity = opacity; let spacing = -0.02 + (scroll / 3000); watermarkText.style.letterSpacing = spacing + 'em'; } });
-        
-        // Слушатель скролла для блока услуг (защищен от ошибок, если блок удален)
-        window.addEventListener('scroll', () => { const section = document.getElementById('services'); if (!section) return; const leftTitle = document.getElementById('left-title'); const rightTitle = document.getElementById('right-title'); if (!leftTitle || !rightTitle) return; const rect = section.getBoundingClientRect(); const windowHeight = window.innerHeight; const animationLength = windowHeight * 0.5; const scrolledIntoSection = -rect.top + 50; let progress = 0; if (scrolledIntoSection < 0) { progress = 0; } else { progress = Math.min(scrolledIntoSection / animationLength, 1); } const maxTranslatePx = 260; const currentTranslate = maxTranslatePx * progress; leftTitle.style.transform = `translateX(-${currentTranslate}px)`; rightTitle.style.transform = `translateX(${currentTranslate}px)`; });
-        
-        const modal = document.getElementById('modal'); const overlay = document.getElementById('modal-overlay'); const modalContent = document.getElementById('modal-content'); const body = document.body; function openModal(serviceType) { const data = modalData[serviceType]; if (!data) return; modalBody.innerHTML = `<h2 class="text-[28px] font-bold text-primary mb-6 tracking-tighter">${data.title}</h2><div class="bg-background rounded-2xl p-6 mb-6"><p class="text-[16px] text-secondary leading-[1.6] mb-4 tracking-tight">${data.description}</p><p class="text-[15px] font-medium text-primary tracking-tight">${data.highlight}</p></div><button onclick="closeModal()" class="w-full bg-accent hover:bg-accent-hover text-primary font-medium py-3.5 rounded-xl transition-colors tracking-tight">Понятно, спасибо</button>`; modal.classList.remove('hidden'); modal.classList.add('flex'); body.classList.add('modal-open'); setTimeout(() => { overlay.classList.remove('opacity-0'); modalContent.classList.remove('opacity-0', 'scale-95'); modalContent.classList.add('opacity-100', 'scale-100'); }, 10); } function closeModal() { overlay.classList.add('opacity-0'); modalContent.classList.remove('opacity-100', 'scale-100'); modalContent.classList.add('opacity-0', 'scale-95'); setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); body.classList.remove('modal-open'); }, 300); } document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) { closeModal(); } });
-        
-        // Snow (Inside container)
-        function createSnowflakes() { const container = document.getElementById('snow-container'); if(!container) return; const flakeCount = 40; for (let i = 0; i < flakeCount; i++) { const flake = document.createElement('div'); flake.classList.add('snowflake'); const size = Math.random() * 3 + 2 + 'px'; flake.style.width = size; flake.style.height = size; flake.style.left = Math.random() * 100 + '%'; flake.style.animationDuration = Math.random() * 3 + 5 + 's'; flake.style.animationDelay = Math.random() * 5 + 's'; container.appendChild(flake); } } createSnowflakes();
-    </script>
-</body>
-</html>
+/* cell number */
+.gallery-cell:before {
+  display: block;
+  text-align: center;
+  content: counter(gallery-cell);
+  line-height: 200px;
+  font-size: 80px;
+  color: white;
+}
