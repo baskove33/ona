@@ -35,7 +35,7 @@
                     letterSpacing: {
                         'tight': '-0.01em',       
                         'tighter': '-0.025em', 
-                        'dense': '-0.04em', /* Новый, очень плотный трекинг */
+                        'dense': '-0.04em',
                     },
                     spacing: {
                         'layout-px': 'clamp(20px, 4vw, 60px)',
@@ -163,8 +163,8 @@
         </div>
     </header>
 
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 z-40 bg-background closed flex flex-col pt-24 px-layout-px pb-10">
+    <!-- Mobile Menu (Исправлен z-index на z-[100] для перекрытия хедера) -->
+    <div id="mobile-menu" class="fixed inset-0 z-[100] bg-background closed flex flex-col pt-24 px-layout-px pb-10">
         <button id="close-menu-btn" class="absolute top-6 right-layout-px p-2 text-primary">
             <span class="material-symbols-rounded text-3xl">close</span>
         </button>
@@ -307,7 +307,8 @@
     </section>
 
     <!-- БЛОК 3: УСЛУГИ -->
-    <section id="services" class="relative bg-background min-h-[250vh] w-full pt-16">
+    <!-- ИСПРАВЛЕНИЕ: высота h-auto на мобильном, фиксированная 250vh только на десктопе. Это убирает скачок. -->
+    <section id="services" class="relative bg-background lg:min-h-[250vh] h-auto w-full pt-16">
         <div class="sticky top-0 h-screen w-full hidden lg:flex items-start justify-center pointer-events-none z-0 pt-32">
             <span class="text-[13px] font-bold tracking-[0.2em] text-tertiary uppercase">Услуги</span>
         </div>
@@ -621,7 +622,26 @@
             
             const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 }; const observer = new IntersectionObserver((entries, observer) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); } }); }, observerOptions); document.querySelectorAll('.scroll-animate').forEach(card => { observer.observe(card); });
             
-            window.addEventListener('scroll', () => { const leftTitle = document.getElementById('left-title'); const rightTitle = document.getElementById('right-title'); const section = document.getElementById('services'); if (!leftTitle || !rightTitle || !section) return; const rect = section.getBoundingClientRect(); const windowHeight = window.innerHeight; const animationLength = windowHeight * 0.5; const scrolledIntoSection = -rect.top + 50; let progress = 0; if (scrolledIntoSection < 0) progress = 0; else progress = Math.min(scrolledIntoSection / animationLength, 1); const maxTranslatePx = 290; const currentTranslate = maxTranslatePx * progress; leftTitle.style.transform = `translateX(-${currentTranslate}px)`; rightTitle.style.transform = `translateX(${currentTranslate}px)`; });
+            // Исправлен скролл на мобильном: проверка на ширину экрана
+            window.addEventListener('scroll', () => { 
+                if (window.innerWidth < 1024) return; // Не запускать на мобильных
+                
+                const leftTitle = document.getElementById('left-title'); 
+                const rightTitle = document.getElementById('right-title'); 
+                const section = document.getElementById('services'); 
+                if (!leftTitle || !rightTitle || !section) return; 
+                const rect = section.getBoundingClientRect(); 
+                const windowHeight = window.innerHeight; 
+                const animationLength = windowHeight * 0.5; 
+                const scrolledIntoSection = -rect.top + 50; 
+                let progress = 0; 
+                if (scrolledIntoSection < 0) progress = 0; 
+                else progress = Math.min(scrolledIntoSection / animationLength, 1); 
+                const maxTranslatePx = 290; 
+                const currentTranslate = maxTranslatePx * progress; 
+                leftTitle.style.transform = `translateX(-${currentTranslate}px)`; 
+                rightTitle.style.transform = `translateX(${currentTranslate}px)`; 
+            });
             
             const modal = document.getElementById('modal'); const overlay = document.getElementById('modal-overlay'); const modalContent = document.getElementById('modal-content'); const body = document.body; 
             
