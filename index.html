@@ -92,6 +92,12 @@
         #modal-content { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease; }
         body.modal-open { overflow: hidden; }
 
+        /* Mobile Menu Transitions */
+        #mobile-menu { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        #mobile-menu.open { transform: translateX(0); }
+        #mobile-menu.closed { transform: translateX(100%); }
+
+        /* SNOWFALL ANIMATION */
         .snowflake {
             position: absolute;
             top: -20px;
@@ -110,81 +116,65 @@
         .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3); }
 
-        /* --- UPDATED SMOOTH SLIDER STYLES --- */
-        .slider-wrapper {
-            position: relative;
+        /* CIRCULAR SLIDER STYLES */
+        .slider-container {
             height: 500px;
-            width: 100%;
             display: flex;
-            justify-content: center;
             align-items: center;
-            perspective: 1000px;
+            justify-content: center;
+            position: relative;
         }
-
-        .slide-item {
+        .slide {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 400px;
-            height: 400px;
+            transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
             border-radius: 50%;
             overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            /* Super smooth transition for transform and opacity */
-            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-            transform-origin: center center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             cursor: pointer;
-            background: #000;
+            aspect-ratio: 1/1;
         }
-        
-        .slide-item img {
+        .slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.6;
-            transition: opacity 0.8s ease, transform 0.8s ease;
         }
-
-        /* States based on data attributes managed by JS */
-        .slide-item[data-state="active"] {
-            transform: translate(-50%, -50%) scale(1);
+        /* Active (Center) */
+        .slide.active {
             z-index: 20;
+            transform: translateX(0) scale(1);
+            opacity: 1;
+            width: 400px;
+            filter: brightness(1);
             border: 4px solid rgba(255,255,255,0.1);
-            opacity: 1;
         }
-        .slide-item[data-state="active"] img {
-            opacity: 1;
-            transform: scale(1.05); /* Slight zoom in */
-        }
-
-        .slide-item[data-state="prev"] {
-            transform: translate(-130%, -50%) scale(0.65);
+        /* Prev (Left) */
+        .slide.prev {
             z-index: 10;
-            opacity: 0.6;
+            transform: translateX(-110%) scale(0.65);
+            opacity: 0.4;
+            width: 400px;
+            filter: brightness(0.6) grayscale(0.5);
         }
-
-        .slide-item[data-state="next"] {
-            transform: translate(30%, -50%) scale(0.65);
+        /* Next (Right) */
+        .slide.next {
             z-index: 10;
-            opacity: 0.6;
+            transform: translateX(110%) scale(0.65);
+            opacity: 0.4;
+            width: 400px;
+            filter: brightness(0.6) grayscale(0.5);
         }
-
-        .slide-item[data-state="hidden"] {
-            transform: translate(-50%, -50%) scale(0);
-            opacity: 0;
-            z-index: 0;
-        }
-
-        /* Progress Bar */
+        .slide.hidden { opacity: 0; transform: scale(0); z-index: 0; }
+        
+        /* Progress Bars */
         .progress-indicators {
             display: flex;
-            gap: 12px;
+            gap: 8px;
             justify-content: center;
             margin-top: 20px;
         }
         .progress-bar-bg {
             width: 60px;
-            height: 3px;
+            height: 2px;
             background: rgba(255,255,255,0.1);
             border-radius: 2px;
             overflow: hidden;
@@ -198,14 +188,13 @@
             height: 100%;
             background: #D4C4B0;
             width: 0%;
-            /* Transition is handled via inline styles for precise timing */
         }
 
         @media (max-width: 768px) {
-            .slider-wrapper { height: 400px; }
-            .slide-item { width: 280px; height: 280px; }
-            .slide-item[data-state="prev"] { transform: translate(-110%, -50%) scale(0.6); }
-            .slide-item[data-state="next"] { transform: translate(10%, -50%) scale(0.6); }
+            .slider-container { height: 350px; }
+            .slide.active { width: 260px; }
+            .slide.prev { transform: translateX(-60%) scale(0.6); opacity: 0.3; }
+            .slide.next { transform: translateX(60%) scale(0.6); opacity: 0.3; }
         }
 
         /* Plasma Background Canvas */
@@ -237,22 +226,51 @@
             </nav>
 
             <div class="flex items-center gap-4">
-                <a href="#booking" class="hidden sm:inline-flex bg-[#1A1A1A] hover:bg-black text-white px-6 py-3 rounded-xl text-[14px] font-medium transition-all duration-300 tracking-tight shadow-lg shadow-black/5 hover:shadow-black/10 transform hover:-translate-y-0.5">
+                <a href="#contacts" class="hidden sm:inline-flex bg-[#1A1A1A] hover:bg-black text-white px-6 py-3 rounded-xl text-[14px] font-medium transition-all duration-300 tracking-tight shadow-lg shadow-black/5 hover:shadow-black/10 transform hover:-translate-y-0.5">
                     Записаться
                 </a>
-                <button class="md:hidden p-2 text-primary">
+                <button id="open-menu-btn" class="md:hidden p-2 text-primary z-50 relative">
                     <span class="material-symbols-rounded text-3xl">menu</span>
                 </button>
             </div>
         </div>
     </header>
 
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-background closed flex flex-col pt-24 px-layout-px pb-10">
+        <button id="close-menu-btn" class="absolute top-6 right-layout-px p-2 text-primary">
+            <span class="material-symbols-rounded text-3xl">close</span>
+        </button>
+        
+        <nav class="flex flex-col gap-8 text-[24px] font-medium text-primary tracking-tighter mb-auto">
+            <a href="#about" class="mobile-link hover:text-accent transition-colors">О нас</a>
+            <a href="#services" class="mobile-link hover:text-accent transition-colors">Услуги</a>
+            <a href="#contacts" class="mobile-link hover:text-accent transition-colors">Контакты</a>
+        </nav>
+
+        <div class="flex flex-col gap-6 mt-10">
+            <a href="#contacts" class="mobile-link w-full bg-[#1A1A1A] text-white py-4 rounded-xl text-[16px] font-medium text-center shadow-lg">
+                Записаться
+            </a>
+            
+            <div class="flex gap-4 justify-center">
+                 <a href="#" class="w-12 h-12 rounded-full bg-white flex items-center justify-center border border-gray-200 text-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                </a>
+                <a href="#" class="w-12 h-12 rounded-full bg-white flex items-center justify-center border border-gray-200 text-primary">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M15.07 2H8.93C3.33 2 2 3.33 2 8.93v6.14C2 20.67 3.33 22 8.93 22h6.14c5.6 0 6.93-1.33 6.93-6.93V8.93C22 3.33 20.67 2 15.07 2zM15 13a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm3-4h-2v2h2V9z"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <!-- БЛОК 1: HERO -->
     <main class="relative z-10 w-full max-w-[1840px] mx-auto px-layout-px pt-24 lg:pt-20 pb-0 min-h-screen flex flex-col justify-center">
         
+        <!-- Grid Content -->
         <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
             
-            <!-- Left Column: Text -->
+            <!-- Left Column: Text (5 cols) -->
             <div class="lg:col-span-5 flex flex-col items-start text-left relative z-10 pb-12 lg:pb-16">
                 
                 <h1 class="blur-text font-bold text-primary tracking-tighter text-[48px] lg:text-[68px] leading-[1.05] mb-6">
@@ -304,18 +322,15 @@
                 </div>
             </div>
 
-            <!-- Right Column: Image -->
+            <!-- Right Column: Image (7 cols) -->
             <div class="hidden lg:block lg:col-span-7 relative w-full fade-in-up delay-500 opacity-0">
                  <div class="relative w-full">
-                     <!-- No background, no shadow for image itself -->
-                     <div class="relative w-full h-full flex items-center justify-center lg:items-end lg:justify-center">
-                         <img src="https://res.cloudinary.com/dt79npeea/image/upload/v1766514540/2622_dlx8qw.png" 
-                              alt="Face Massage" 
-                              class="w-full h-auto max-h-[85vh] object-contain object-center drop-shadow-none">
-                         
-                         <!-- Soft gradient only at the very bottom -->
-                         <div class="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none"></div>
-                     </div>
+                     <img src="https://res.cloudinary.com/dt79npeea/image/upload/v1766514540/2622_dlx8qw.png" 
+                          alt="Face Massage" 
+                          class="w-full h-auto max-h-[85vh] object-contain object-center drop-shadow-none">
+                     
+                     <!-- Мягкий градиент снизу -->
+                     <div class="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-background via-background/40 to-transparent pointer-events-none"></div>
                  </div>
             </div>
 
@@ -330,7 +345,7 @@
         </div>
     </main>
 
-    <!-- БЛОК 2: О НАС (SMOOTH SLIDER + PLASMA) -->
+    <!-- БЛОК 2: ПОЧЕМУ ONA FACE? -->
     <section id="about" class="bg-dark-section py-16 lg:py-24 relative z-10 w-full text-white overflow-hidden">
         
         <canvas id="plasma-canvas" class="absolute inset-0 w-full h-full opacity-30 pointer-events-none"></canvas>
@@ -341,24 +356,19 @@
                 Почему ONA Face?
             </h2>
 
-            <!-- Circular Slider Area -->
-            <!-- IMPORTANT: JS will populate .slide-item inside .slider-wrapper -->
-            <div class="slider-wrapper mb-8" id="slider-wrapper">
-                <!-- Slides injected by JS -->
-            </div>
+            <!-- Circular Slider -->
+            <div class="slider-container mb-8" id="slider"></div>
             
-            <!-- Progress Bars (Tabs logic) -->
-            <div class="progress-indicators mb-12" id="slider-progress-container">
-                <!-- Bars injected by JS -->
-            </div>
+            <!-- Progress Bars -->
+            <div class="progress-indicators mb-12" id="slider-progress-container"></div>
 
             <div class="max-w-2xl mx-auto mb-16">
                 <p class="text-[18px] lg:text-[20px] leading-[1.6] text-white/80 font-light tracking-tight">
-                    Мы специализируемся на <span class="text-white font-medium">массаже лица</span> и деликатных пилингах. Наш подход — <span class="text-white font-medium">бережное обновление</span> без агрессии.
+                    Мы специализируемся на <span class="text-white font-medium">массаже лица</span> и деликатных пилингах. Наш подход — <span class="text-white font-medium">бережное обновление</span> без агрессии, где каждая процедура запускает естественную регенерацию.
                 </p>
             </div>
 
-            <!-- Преимущества -->
+            <!-- Иконки преимуществ -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-white/10 pt-10">
                 <div class="flex flex-col items-center hover-lift">
                     <div class="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mb-4 border border-white/10"><span class="material-symbols-rounded text-accent text-3xl">water_drop</span></div>
@@ -400,17 +410,22 @@
                     <span class="text-[12px] font-bold tracking-[0.2em] text-tertiary uppercase mb-3 block">Услуги</span>
                     <h2 class="text-[28px] leading-[1.1] text-primary font-medium tracking-tight">Выберите уход в своём ритме</h2>
                 </div>
-                <!-- Cards with full content -->
+                
+                <!-- Card 1 -->
                 <div class="scroll-animate w-full max-w-[500px] bg-white rounded-[24px] p-8 border border-gray-100 shadow-none hover:border-gray-200 transition-colors duration-300">
                     <div class="flex justify-between items-start mb-6"><div class="w-12 h-12 bg-background rounded-full flex items-center justify-center text-primary"><span class="material-symbols-rounded">spa</span></div></div><h3 class="text-[26px] font-bold text-primary mb-3 tracking-tighter">Массаж лица</h3><p class="text-[16px] text-secondary leading-[1.6] mb-6 tracking-tight">Залог <span class="text-primary font-medium">упругой, здоровой кожи</span>.</p>
                     <div class="mb-8 border-t border-gray-100 pt-6"><ul class="space-y-3"><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Классический массаж</span><span class="font-semibold text-primary">2 900₽</span></li><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Лимфодренажный</span><span class="font-semibold text-primary">3 500₽</span></li><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Антивозрастной</span><span class="font-semibold text-primary">3 500₽</span></li><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Скульптурирующий</span><span class="font-semibold text-primary">4 000₽</span></li><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Буккальный массаж</span><span class="font-semibold text-primary">4 500₽</span></li></ul></div>
                     <div class="flex gap-3"><button onclick="openModal('massage')" class="flex-1 py-3 rounded-lg border border-primary/10 hover:bg-primary/5 transition-all text-[14px] font-medium tracking-tight text-primary">Подробнее</button><button class="flex-1 py-3 rounded-lg bg-primary text-white hover:bg-black transition-all text-[14px] font-medium tracking-tight">Записаться</button></div>
                 </div>
+
+                <!-- Card 2 -->
                 <div class="scroll-animate w-full max-w-[500px] bg-white rounded-[24px] p-8 border border-gray-100 shadow-none hover:border-gray-200 transition-colors duration-300">
                     <div class="flex justify-between items-start mb-6"><div class="w-12 h-12 bg-background rounded-full flex items-center justify-center text-primary"><span class="material-symbols-rounded">water_drop</span></div></div><h3 class="text-[26px] font-bold text-primary mb-3 tracking-tighter">Пилинги</h3><p class="text-[16px] text-secondary leading-[1.6] mb-6 tracking-tight">Действуют <span class="text-primary font-medium">внутри эпидермиса</span>.</p>
                     <div class="mb-8 border-t border-gray-100 pt-6"><ul class="space-y-3"><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Миндальный пилинг</span><span class="font-semibold text-primary">3 000₽</span></li><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Салициловый</span><span class="font-semibold text-primary">3 000₽</span></li><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">PRX-T33 терапия</span><span class="font-semibold text-primary">5 000₽</span></li><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">BioRePeelCl3</span><span class="font-semibold text-primary">5 500₽</span></li><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Peach Peel</span><span class="font-semibold text-primary">4 500₽</span></li></ul></div>
                     <div class="flex gap-3"><button onclick="openModal('peeling')" class="flex-1 py-3 rounded-lg border border-primary/10 hover:bg-primary/5 transition-all text-[14px] font-medium tracking-tight text-primary">Подробнее</button><button class="flex-1 py-3 rounded-lg bg-primary text-white hover:bg-black transition-all text-[14px] font-medium tracking-tight">Записаться</button></div>
                 </div>
+
+                <!-- Card 3 -->
                 <div class="scroll-animate w-full max-w-[500px] bg-white rounded-[24px] p-8 border border-gray-100 shadow-none hover:border-gray-200 transition-colors duration-300">
                     <div class="flex justify-between items-start mb-6"><div class="w-12 h-12 bg-background rounded-full flex items-center justify-center text-primary"><span class="material-symbols-rounded">local_florist</span></div></div><h3 class="text-[26px] font-bold text-primary mb-3 tracking-tighter">Уходовые процедуры</h3><p class="text-[16px] text-secondary leading-[1.6] mb-6 tracking-tight">Комплексный подход. <span class="text-primary font-medium">Увлажнение и омоложение</span>.</p>
                     <div class="mb-8 border-t border-gray-100 pt-6"><ul class="space-y-3"><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Глубокое увлажнение</span><span class="font-semibold text-primary">3 500₽</span></li><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Чистка лица</span><span class="font-semibold text-primary">3 000₽</span></li><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Экспресс-уход</span><span class="font-semibold text-primary">2 500₽</span></li><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Карбокситерапия</span><span class="font-semibold text-primary">4 000₽</span></li><li class="flex justify-between items-center text-[15px]"><span class="text-secondary">Микротоковая терапия</span><span class="font-semibold text-primary">3 500₽</span></li></ul></div>
@@ -440,7 +455,8 @@
                         </div>
                         <div class="absolute left-[20%] top-[40%] h-2 w-2 scale-0 opacity-0 rounded-lg bg-white transition-all duration-500 group-hover:opacity-100 group-hover:left-[0%] group-hover:top-[0%] group-hover:h-full group-hover:w-full group-hover:scale-[1.8] group-hover:rounded-none"></div>
                     </button>
-                    <p class="text-sm text-white/50 mt-8 italic tracking-wide">Мягко обновляем кожу, снимаем отечность, возвращаем сияние.</p>
+                    <!-- Убран дублирующийся текст -->
+                    <p class="text-sm text-white/50 mt-8 italic tracking-wide">Идеальное время, чтобы начать заботиться о себе.</p>
                 </div>
             </div>
         </div>
@@ -450,178 +466,212 @@
     <section id="contacts" class="bg-background py-16 lg:py-24 relative z-10 text-primary">
         <div class="max-w-[1840px] mx-auto px-layout-px">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <!-- Левая карточка -->
-                <div class="lg:col-span-8 bg-white border border-gray-100 rounded-[32px] p-8 lg:p-12 hover-lift relative overflow-hidden group shadow-lg shadow-black/5">
-                    <div class="absolute top-0 right-0 p-8 opacity-5 pointer-events-none"><span class="material-symbols-rounded text-[120px] text-primary">spa</span></div>
+                
+                <!-- Правая карточка (Action / Запланировать консультацию) -->
+                <!-- На мобильном order-1 (первая), на десктопе lg:order-2 (вторая) -->
+                <div class="lg:col-span-4 lg:order-2 order-1 bg-white border border-gray-100 rounded-[32px] p-8 lg:p-10 hover-lift flex flex-col justify-between shadow-lg shadow-black/5">
+                    <div>
+                        <div class="flex justify-between items-center mb-12">
+                             <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20">
+                                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                                <span class="text-xs text-green-600 font-medium tracking-wide">Онлайн</span>
+                             </div>
+                             <span class="material-symbols-rounded text-tertiary text-3xl">calendar_month</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-4 text-primary tracking-tighter">Запланировать<br>консультацию</h3>
+                        <p class="text-secondary text-base mb-10 leading-relaxed">
+                            Оставьте заявку онлайн, и администратор свяжется с вами.
+                        </p>
+                        
+                        <!-- Обновленная кнопка в стиле первого блока (темная версия) -->
+                         <button class="group relative w-full cursor-pointer overflow-hidden rounded-full border border-primary/10 bg-primary p-3 px-8 text-center font-semibold shadow-lg shadow-black/5">
+                            <span class="inline-block transition-all duration-300 group-hover:translate-x-12 group-hover:opacity-0 text-white">
+                                Записаться
+                            </span>
+                            <div class="absolute top-0 left-0 z-10 flex h-full w-full translate-x-12 items-center justify-center gap-2 text-primary opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
+                                <span>Записаться</span>
+                                <span class="material-symbols-rounded text-lg">arrow_forward</span>
+                            </div>
+                            <div class="absolute left-[20%] top-[40%] h-2 w-2 scale-0 opacity-0 rounded-lg bg-white transition-all duration-500 group-hover:opacity-100 group-hover:left-[0%] group-hover:top-[0%] group-hover:h-full group-hover:w-full group-hover:scale-[1.8] group-hover:rounded-none"></div>
+                        </button>
+
+                    </div>
+                    <p class="text-center text-xs text-tertiary mt-8 pt-6 border-t border-gray-100">
+                        Бесплатная консультация ~15 минут перед каждой процедурой
+                    </p>
+                </div>
+
+                <!-- Левая карточка (Info / Студия) -->
+                <!-- На мобильном order-2 (вторая), на десктопе lg:order-1 (первая) -->
+                <div class="lg:col-span-8 lg:order-1 order-2 bg-white border border-gray-100 rounded-[32px] p-8 lg:p-12 relative overflow-hidden shadow-lg shadow-black/5">
+                    <div class="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
+                         <span class="material-symbols-rounded text-[120px] text-primary">spa</span>
+                    </div>
                     <div class="relative z-10">
-                        <h2 class="blur-text text-[32px] lg:text-[40px] font-bold tracking-tighter mb-2 leading-none text-primary">ONA Face — студия<br>массажа лица</h2>
-                        <p class="text-secondary text-lg mb-12 font-light">Запишитесь на консультацию и подберём уход под вашу кожу</p>
+                        <h2 class="blur-text text-[32px] lg:text-[40px] font-bold tracking-tighter mb-12 leading-none text-primary">ONA Face — студия<br>массажа лица</h2>
+                        <!-- Убран текст "Запишитесь на консультацию..." -->
+                        
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-10 mb-12">
+                            <!-- Column 1 -->
                             <div>
                                 <h4 class="text-xs font-bold uppercase tracking-widest text-tertiary mb-4">Свяжитесь с нами</h4>
                                 <div class="flex flex-col gap-3">
-                                    <button class="flex items-center gap-3 px-5 py-3.5 rounded-xl bg-background border border-gray-100 hover:bg-gray-100 transition-colors text-left w-full text-primary"><span class="material-symbols-rounded text-accent">call</span><span>Позвонить</span></button>
-                                    <button class="flex items-center gap-3 px-5 py-3.5 rounded-xl bg-background border border-gray-100 hover:bg-gray-100 transition-colors text-left w-full text-primary"><span class="material-symbols-rounded text-accent">chat</span><span>Написать в WhatsApp</span></button>
+                                    <!-- Красивая кнопка Позвонить -->
+                                    <button class="group relative w-full cursor-pointer overflow-hidden rounded-full border border-primary/10 bg-background hover:bg-white p-3 px-6 text-left font-semibold transition-all">
+                                        <div class="flex items-center gap-3 relative z-10 transition-all duration-300 group-hover:translate-x-2 text-primary">
+                                            <span class="material-symbols-rounded text-accent">call</span>
+                                            <span>Позвонить</span>
+                                        </div>
+                                         <div class="absolute top-0 left-0 z-0 h-full w-0 bg-gray-100 transition-all duration-300 group-hover:w-full"></div>
+                                    </button>
+
+                                    <!-- Красивая кнопка WhatsApp -->
+                                    <button class="group relative w-full cursor-pointer overflow-hidden rounded-full border border-primary/10 bg-background hover:bg-white p-3 px-6 text-left font-semibold transition-all">
+                                        <div class="flex items-center gap-3 relative z-10 transition-all duration-300 group-hover:translate-x-2 text-primary">
+                                            <span class="material-symbols-rounded text-accent">chat</span>
+                                            <span>WhatsApp</span>
+                                        </div>
+                                        <div class="absolute top-0 left-0 z-0 h-full w-0 bg-gray-100 transition-all duration-300 group-hover:w-full"></div>
+                                    </button>
                                 </div>
                             </div>
+                            
+                            <!-- Column 2 -->
                             <div class="flex flex-col justify-between">
                                 <div>
                                     <h4 class="text-xs font-bold uppercase tracking-widest text-tertiary mb-4">Контакты</h4>
                                     <div class="space-y-3">
-                                        <a href="tel:+79991234567" class="flex items-center gap-3 text-lg text-primary hover:text-accent transition-colors"><span class="material-symbols-rounded text-accent text-xl">smartphone</span>+7 (999) 123-45-67</a>
-                                        <div class="flex items-center gap-3 text-lg text-secondary"><span class="material-symbols-rounded text-accent text-xl">location_on</span>Москва, ул. Тверская 12</div>
+                                        <a href="tel:+79991234567" class="flex items-center gap-3 text-lg text-primary hover:text-accent transition-colors">
+                                            <span class="material-symbols-rounded text-accent text-xl">smartphone</span>+7 (999) 123-45-67
+                                        </a>
+                                        <div class="flex items-center gap-3 text-lg text-secondary">
+                                            <span class="material-symbols-rounded text-accent text-xl">location_on</span>Москва, ул. Тверская 12
+                                        </div>
                                     </div>
                                 </div>
+
                                 <div class="mt-8">
                                     <h4 class="text-xs font-bold uppercase tracking-widest text-tertiary mb-3">Мы в соцсетях</h4>
                                     <div class="flex gap-4">
-                                        <a href="#" class="w-10 h-10 rounded-full bg-background flex items-center justify-center border border-gray-100 hover:bg-accent hover:text-primary hover:border-accent transition-all text-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
-                                        <a href="#" class="w-10 h-10 rounded-full bg-background flex items-center justify-center border border-gray-100 hover:bg-accent hover:text-primary hover:border-accent transition-all text-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M15.07 2H8.93C3.33 2 2 3.33 2 8.93v6.14C2 20.67 3.33 22 8.93 22h6.14c5.6 0 6.93-1.33 6.93-6.93V8.93C22 3.33 20.67 2 15.07 2zM15 13a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm3-4h-2v2h2V9z"/></svg></a>
+                                        <a href="#" class="w-12 h-12 rounded-full bg-background flex items-center justify-center border border-gray-100 hover:bg-accent hover:text-primary hover:border-accent transition-all text-secondary">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                                        </a>
+                                        <a href="#" class="w-12 h-12 rounded-full bg-background flex items-center justify-center border border-gray-100 hover:bg-accent hover:text-primary hover:border-accent transition-all text-secondary">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M15.07 2H8.93C3.33 2 2 3.33 2 8.93v6.14C2 20.67 3.33 22 8.93 22h6.14c5.6 0 6.93-1.33 6.93-6.93V8.93C22 3.33 20.67 2 15.07 2zM15 13a3 3 0 1 1-6 0 3 3 0 0 1 6 0zm3-4h-2v2h2V9z"/></svg>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-end pt-8 border-t border-gray-100">
                             <div><span class="block text-sm text-tertiary mb-1">График работы</span><span class="text-lg text-primary">Ежедневно 10:00–21:00</span></div>
                             <button class="mt-4 md:mt-0 flex items-center gap-2 text-accent hover:text-primary transition-colors border-b border-transparent hover:border-primary pb-1"><span>Посмотреть на карте</span><span class="material-symbols-rounded text-sm">arrow_outward</span></button>
                         </div>
                     </div>
                 </div>
-                <!-- Правая карточка -->
-                <div class="lg:col-span-4 bg-white border border-gray-100 rounded-[32px] p-8 lg:p-10 hover-lift flex flex-col justify-between shadow-lg shadow-black/5">
-                    <div>
-                        <div class="flex justify-between items-center mb-12">
-                             <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20"><span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span><span class="text-xs text-green-600 font-medium tracking-wide">Онлайн</span></div>
-                             <span class="material-symbols-rounded text-tertiary text-3xl">calendar_month</span>
-                        </div>
-                        <h3 class="text-3xl font-bold mb-4 text-primary tracking-tighter">Запланировать<br>консультацию</h3>
-                        <p class="text-secondary text-base mb-10 leading-relaxed">Оставьте заявку онлайн, и администратор свяжется с вами.</p>
-                        <button class="group relative w-full cursor-pointer overflow-hidden rounded-xl border border-accent bg-accent p-4 text-center font-bold shadow-lg hover:shadow-accent/20 transition-shadow">
-                            <span class="inline-block transition-all duration-300 group-hover:translate-x-12 group-hover:opacity-0 text-primary">Записаться на консультацию</span>
-                            <div class="absolute top-0 left-0 z-10 flex h-full w-full translate-x-12 items-center justify-center gap-2 text-primary opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"><span>Записаться</span><span class="material-symbols-rounded text-lg">arrow_forward</span></div>
-                            <div class="absolute left-[20%] top-[40%] h-2 w-2 scale-0 opacity-0 rounded-lg bg-white transition-all duration-500 group-hover:opacity-100 group-hover:left-[0%] group-hover:top-[0%] group-hover:h-full group-hover:w-full group-hover:scale-[2.5] group-hover:rounded-none"></div>
-                        </button>
-                    </div>
-                    <p class="text-center text-xs text-tertiary mt-8 pt-6 border-t border-gray-100">Бесплатная консультация ~15 минут перед каждой процедурой</p>
-                </div>
+
             </div>
         </div>
     </section>
 
-    <!-- Modal omitted for brevity -->
+    <!-- Modal -->
     <div id="modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6"><div id="modal-overlay" class="absolute inset-0 bg-black/60 backdrop-blur-md opacity-0" onclick="closeModal()"></div><div id="modal-content" class="relative w-full max-w-[600px] bg-white rounded-[32px] shadow-2xl max-h-[90vh] overflow-y-auto opacity-0 scale-95 p-8 md:p-10"><button onclick="closeModal()" class="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-100 transition-colors z-10"><span class="material-symbols-rounded">close</span></button><div id="modal-body" class="mb-0"></div></div></div>
 
     <script>
         (function() {
-            // Slider Logic (Persistent Elements for smoothness)
-            const images = ["https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?q=80&w=600&auto=format&fit=crop","https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=600&auto=format&fit=crop","https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=600&auto=format&fit=crop","https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=600&auto=format&fit=crop"];
+            // --- Mobile Menu Logic ---
+            const mobileMenu = document.getElementById('mobile-menu');
+            const openBtn = document.getElementById('open-menu-btn');
+            const closeBtn = document.getElementById('close-menu-btn');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            function toggleMenu(show) {
+                if (show) {
+                    mobileMenu.classList.remove('closed');
+                    mobileMenu.classList.add('open');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    mobileMenu.classList.remove('open');
+                    mobileMenu.classList.add('closed');
+                    document.body.style.overflow = '';
+                }
+            }
+
+            openBtn.addEventListener('click', () => toggleMenu(true));
+            closeBtn.addEventListener('click', () => toggleMenu(false));
+            
+            // Close menu when clicking a link
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => toggleMenu(false));
+            });
+
+
+            // --- Slider Logic ---
+            const images = ["https://res.cloudinary.com/dt79npeea/image/upload/v1766566777/Gemini_Generated_Image_qfgabyqfgabyqfga_uhzpgt.png","https://res.cloudinary.com/dt79npeea/image/upload/v1766566583/Gemini_Generated_Image_ipvk4xipvk4xipvk_tfnhul.png","https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?q=80&w=600&auto=format&fit=crop","https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=600&auto=format&fit=crop"];
             let currentSlide = 0;
-            const sliderWrapper = document.getElementById('slider-wrapper');
+            const sliderContainer = document.getElementById('slider');
             const progressContainer = document.getElementById('slider-progress-container');
             const slides = [];
+            let progressInterval;
 
-            // Initialize Slides ONCE
             function initSlider() {
                 images.forEach((img, index) => {
                     const slide = document.createElement('div');
-                    slide.className = 'slide-item';
-                    const image = document.createElement('img');
-                    image.src = img;
-                    slide.appendChild(image);
-                    
-                    // Click to go to this slide
-                    slide.onclick = () => {
-                        currentSlide = index;
-                        updateSliderState();
-                        resetProgress();
-                    };
-                    
-                    sliderWrapper.appendChild(slide);
+                    slide.className = 'slide';
+                    const image = document.createElement('img'); image.src = img; slide.appendChild(image);
+                    slide.onclick = () => { currentSlide = index; updateSliderState(); resetProgress(); };
+                    sliderContainer.appendChild(slide);
                     slides.push(slide);
-                    
-                    // Create Progress Bar
-                    const barWrapper = document.createElement('div');
-                    barWrapper.className = 'progress-bar-bg';
-                    const bar = document.createElement('div');
-                    bar.className = 'progress-bar-fill';
-                    bar.id = `progress-${index}`;
-                    barWrapper.appendChild(bar);
-                    progressContainer.appendChild(barWrapper);
+                    const barWrapper = document.createElement('div'); barWrapper.className = 'progress-bar-bg';
+                    const bar = document.createElement('div'); bar.className = 'progress-bar-fill'; bar.id = `progress-${index}`;
+                    barWrapper.appendChild(bar); progressContainer.appendChild(barWrapper);
                 });
-                
-                updateSliderState();
-                startProgress();
+                updateSliderState(); startProgress();
             }
 
             function updateSliderState() {
                 const total = slides.length;
                 const leftIndex = (currentSlide - 1 + total) % total;
                 const rightIndex = (currentSlide + 1) % total;
-
                 slides.forEach((slide, index) => {
-                    // Reset attributes
-                    slide.removeAttribute('data-state');
-                    
-                    if (index === currentSlide) {
-                        slide.setAttribute('data-state', 'active');
-                    } else if (index === leftIndex) {
-                        slide.setAttribute('data-state', 'prev');
-                    } else if (index === rightIndex) {
-                        slide.setAttribute('data-state', 'next');
-                    } else {
-                        slide.setAttribute('data-state', 'hidden');
-                    }
+                    slide.className = 'slide';
+                    if (index === currentSlide) slide.classList.add('active');
+                    else if (index === leftIndex) { slide.classList.add('prev'); }
+                    else if (index === rightIndex) { slide.classList.add('next'); }
+                    else slide.classList.add('hidden');
                 });
             }
 
-            // Progress Bar Logic
-            let progressInterval;
             function startProgress() {
-                // Reset all bars
-                images.forEach((_, i) => {
-                    const bar = document.getElementById(`progress-${i}`);
-                    bar.style.transition = 'none';
-                    bar.style.width = '0%';
-                });
-
-                // Force reflow
-                void document.getElementById(`progress-${currentSlide}`).offsetWidth;
-
-                // Animate current bar
+                images.forEach((_, i) => { const bar = document.getElementById(`progress-${i}`); if(bar){ bar.style.transition = 'none'; bar.style.width = '0%'; } });
                 const currentBar = document.getElementById(`progress-${currentSlide}`);
-                currentBar.style.transition = 'width 5000ms linear';
-                currentBar.style.width = '100%';
+                void currentBar.offsetWidth;
+                if(currentBar){ currentBar.style.transition = 'width 5000ms linear'; currentBar.style.width = '100%'; }
             }
 
             function resetProgress() {
-                // Clear existing interval logic if any (we use CSS transition, but logic needs restart)
-                clearInterval(progressInterval);
-                startProgress();
-                progressInterval = setInterval(() => {
-                    currentSlide = (currentSlide + 1) % images.length;
-                    updateSliderState();
-                    startProgress();
-                }, 5000);
+                clearInterval(progressInterval); startProgress();
+                progressInterval = setInterval(() => { currentSlide = (currentSlide + 1) % images.length; updateSliderState(); startProgress(); }, 5000);
             }
 
-            // Init everything
             initSlider();
-            progressInterval = setInterval(() => {
-                currentSlide = (currentSlide + 1) % images.length;
-                updateSliderState();
-                startProgress();
-            }, 5000);
+            progressInterval = setInterval(() => { currentSlide = (currentSlide + 1) % images.length; updateSliderState(); startProgress(); }, 5000);
 
-
-            // ... Rest of the scripts (Plasma, Snow, Modals, Scroll) ...
-            // Plasma
+            // --- Visual Effects & Helpers ---
             const canvas = document.getElementById('plasma-canvas'); const ctx = canvas.getContext('2d'); let t = 0; function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; } window.addEventListener('resize', resize); resize(); function drawPlasma() { const w = canvas.width; const h = canvas.height; const gradient = ctx.createLinearGradient(0, 0, w, h); gradient.addColorStop(0, '#1C1A19'); gradient.addColorStop(0.5, '#2A2522'); gradient.addColorStop(1, '#1C1A19'); ctx.fillStyle = gradient; ctx.fillRect(0,0,w,h); const x = Math.sin(t) * w * 0.3 + w/2; const y = Math.cos(t * 0.8) * h * 0.3 + h/2; const rad = ctx.createRadialGradient(x, y, 10, x, y, 400); rad.addColorStop(0, 'rgba(212, 196, 176, 0.05)'); rad.addColorStop(1, 'transparent'); ctx.fillStyle = rad; ctx.fillRect(0,0,w,h); t += 0.01; requestAnimationFrame(drawPlasma); } drawPlasma();
 
-            const modalData = { 'massage': { title: 'Массаж лица', description: 'После процедуры...', highlight: 'Результат: Лифтинг' }, 'peeling': { title: 'Пилинги', description: 'Обновляют кожу...', highlight: 'Результат: Ровный тон' }, 'care': { title: 'Уходовые', description: 'Глубокое увлажнение...', highlight: 'Результат: Питание' } }; const modalBody = document.getElementById('modal-body'); window.toggleBenefits = function() { const content = document.getElementById('benefits-content'); const icon = document.getElementById('benefits-icon'); if (content.style.maxHeight) { content.style.maxHeight = null; content.classList.remove('open'); icon.textContent = 'add'; icon.style.transform = 'rotate(0deg)'; } else { content.style.maxHeight = content.scrollHeight + "px"; content.classList.add('open'); icon.textContent = 'add'; icon.style.transform = 'rotate(45deg)'; } };
+            const modalData = { 'massage': { title: 'Массаж лица', description: 'После процедуры...', highlight: 'Результат: Лифтинг' }, 'peeling': { title: 'Пилинги', description: 'Обновляют кожу...', highlight: 'Результат: Ровный тон' }, 'care': { title: 'Уходовые', description: 'Глубокое увлажнение...', highlight: 'Результат: Питание' } };
+            const modalBody = document.getElementById('modal-body');
+            
             function initBlurText() { const elements = document.querySelectorAll('.blur-text'); const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { const spans = entry.target.querySelectorAll('.blur-word'); spans.forEach((span, index) => { setTimeout(() => { span.classList.add('active'); }, index * 120); }); observer.unobserve(entry.target); } }); }, { threshold: 0.2 }); elements.forEach(el => { const nodes = Array.from(el.childNodes); el.innerHTML = ''; nodes.forEach(node => { if (node.nodeType === 3) { const words = node.textContent.trim().split(/\s+/); words.forEach((word) => { if(word) { const span = document.createElement('span'); span.innerText = word + ' '; span.classList.add('blur-word'); el.appendChild(span); } }); } else { el.appendChild(node.cloneNode(true)); } }); observer.observe(el); }); } document.addEventListener('DOMContentLoaded', initBlurText);
-            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 }; const observer = new IntersectionObserver((entries, observer) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); } }); }, observerOptions); document.querySelectorAll('.scroll-animate').forEach(card => { observer.observe(card); }); document.querySelectorAll('.fade-in-up').forEach(el => { observer.observe(el); });
-            window.addEventListener('scroll', () => { const leftTitle = document.getElementById('left-title'); const rightTitle = document.getElementById('right-title'); const section = document.getElementById('services'); if (!leftTitle || !rightTitle || !section) return; const rect = section.getBoundingClientRect(); const windowHeight = window.innerHeight; const animationLength = windowHeight * 0.5; const scrolledIntoSection = -rect.top + 50; let progress = 0; if (scrolledIntoSection < 0) progress = 0; else progress = Math.min(scrolledIntoSection / animationLength, 1); const maxTranslatePx = 270; const currentTranslate = maxTranslatePx * progress; leftTitle.style.transform = `translateX(-${currentTranslate}px)`; rightTitle.style.transform = `translateX(${currentTranslate}px)`; });
+            
+            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 }; const observer = new IntersectionObserver((entries, observer) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('active'); } }); }, observerOptions); document.querySelectorAll('.scroll-animate').forEach(card => { observer.observe(card); });
+            
+            window.addEventListener('scroll', () => { const leftTitle = document.getElementById('left-title'); const rightTitle = document.getElementById('right-title'); const section = document.getElementById('services'); if (!leftTitle || !rightTitle || !section) return; const rect = section.getBoundingClientRect(); const windowHeight = window.innerHeight; const animationLength = windowHeight * 0.5; const scrolledIntoSection = -rect.top + 50; let progress = 0; if (scrolledIntoSection < 0) progress = 0; else progress = Math.min(scrolledIntoSection / animationLength, 1); const maxTranslatePx = 290; const currentTranslate = maxTranslatePx * progress; leftTitle.style.transform = `translateX(-${currentTranslate}px)`; rightTitle.style.transform = `translateX(${currentTranslate}px)`; });
+            
             const modal = document.getElementById('modal'); const overlay = document.getElementById('modal-overlay'); const modalContent = document.getElementById('modal-content'); const body = document.body; window.openModal = function(serviceType) { const data = modalData[serviceType]; if (!data) return; modalBody.innerHTML = `<h2 class="text-[28px] font-bold text-primary mb-6 tracking-tighter">${data.title}</h2><div class="bg-background rounded-2xl p-6 mb-6"><p class="text-[16px] text-secondary leading-[1.6] mb-4 tracking-tight">${data.description}</p><p class="text-[15px] font-medium text-primary tracking-tight">${data.highlight}</p></div><button onclick="closeModal()" class="w-full bg-accent hover:bg-accent-hover text-primary font-medium py-3.5 rounded-xl transition-colors tracking-tight">Понятно, спасибо</button>`; modal.classList.remove('hidden'); modal.classList.add('flex'); body.classList.add('modal-open'); setTimeout(() => { overlay.classList.remove('opacity-0'); modalContent.classList.remove('opacity-0', 'scale-95'); modalContent.classList.add('opacity-100', 'scale-100'); }, 10); }; window.closeModal = function() { overlay.classList.add('opacity-0'); modalContent.classList.remove('opacity-100', 'scale-100'); modalContent.classList.add('opacity-0', 'scale-95'); setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); body.classList.remove('modal-open'); }, 300); }; document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) { closeModal(); } });
+            
             function createSnowflakes() { const container = document.getElementById('snow-container'); if(!container) return; container.innerHTML = ''; const flakeCount = 60; for (let i = 0; i < flakeCount; i++) { const flake = document.createElement('div'); flake.classList.add('snowflake'); const size = Math.random() * 3 + 2 + 'px'; flake.style.width = size; flake.style.height = size; flake.style.left = Math.random() * 100 + '%'; flake.style.animationDuration = Math.random() * 3 + 5 + 's'; flake.style.animationDelay = -Math.random() * 8 + 's'; container.appendChild(flake); } } createSnowflakes();
         })();
     </script>
